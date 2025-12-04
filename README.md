@@ -1,16 +1,145 @@
-# React + Vite
+#  AUTOMATIC ATTENDANCE SYSTEM — Web Interface  
+AI-powered attendance tracking system using Face Recognition, Python, React, and PostgreSQL.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project provides the **frontend interface** for the Automatic Attendance System (AAS).  
+The system eliminates manual roll-calling by using **AI-based facial recognition** to detect students and automatically store attendance in the database.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Project Overview
+The Automatic Attendance System is designed to:
 
-## React Compiler
+- Automatically detect students from classroom camera footage  
+- Mark attendance with ≥95% face-recognition accuracy  
+- Allow instructors to review and edit unclear records  
+- Generate downloadable PDF/Excel attendance reports  
+- Support student self-registration and photo upload  
+- Provide an admin dashboard for system-wide management  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The UI is built in **React (Cursor)** and communicates with backend APIs to handle registration, face uploads, recognition feedback, and reporting.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🖥️ Tech Stack
+
+### **Frontend**
+- React (implemented in Cursor IDE)
+- Modern, component-based UI architecture
+- Responsive web design (mobile-friendly)
+
+### **Backend (Planned Integration)**
+- Python (Face recognition, image processing)
+- PostgreSQL (relational DB)
+- FastAPI / Node backend (depending on final implementation)
+
+### **AI Module**
+- Face detection  
+- Vector-based face matching  
+- Attendance decision logic  
+
+---
+
+## 🧩 System Features
+
+### 🔵 **Student Registration**
+- Students can register from the UI  
+- Admin can import students from the university system  
+- Students upload a face photo (validated by AI)  
+- The photo is processed and stored securely  
+
+### 🔵 **Attendance Taking**
+- AI analyzes real-time classroom camera footage  
+- Matches faces with stored vectors  
+- Marks attendance automatically  
+- Instructor can manually correct entries  
+
+### 🔵 **Reporting**
+- Attendance reports generated per course/date  
+- Filter by department, student, or course  
+- Export as **PDF** or **Excel**  
+
+---
+
+## 🗂️ System Architecture Overview
+
+The system contains these main modules (summarized from project documentation):  
+:contentReference[oaicite:1]{index=1}
+
+- **Student Module**: registration, photo upload  
+- **Instructor Module**: attendance review/edit  
+- **Admin Module**: user management, approvals  
+- **AI Module**: face recognition + vector comparison  
+- **Database Module**: students, courses, attendance, instructors  
+
+---
+
+## 🗄️ Database Tables (Summary)
+
+**Students**  
+`student_id, name, surname, email, photo_path, face_data, department_id`
+
+**Courses**  
+`course_id, course_name, instructor_id`
+
+**Instructors**  
+`instructor_id, name, email, department_id`
+
+**Attendance**  
+`attendance_id, student_id, course_id, date, status`
+
+**Department**  
+`department_id, department_name`
+
+---
+
+## 🧪 Functional Requirements (Key Points)
+
+- Students must be able to register + upload facial photo  
+- System must detect faces ≥95% accuracy  
+- Attendance must be marked automatically  
+- Instructors must be able to edit unclear records  
+- Reports must export as PDF/Excel  
+
+---
+
+## 🔐 Non-Functional Requirements (Highlights)
+
+- Face processing time ≤ 2 seconds  
+- Data stored in encrypted format  
+- System supports 50+ concurrent students  
+- Login requires two-factor authentication  
+- UI must work on mobile devices  
+
+---
+
+## 🛠️ Development Workflow
+
+This project followed a structured EPIC → Story → Task workflow:  
+- Requirements Analysis  
+- Database Schema Creation  
+- UI Design for Web Application(Canva → Cursor)  
+- Backend Development  
+- System Management & Post-Deployment Operations
+
+---
+
+## 💻 Frontend Pages (Cursor Implementation)
+- Login / Register  
+- Admin Dashboard  
+- Student Registration  
+- Face Upload Page  
+- Attendance Review Page  
+- Reporting Dashboard  
+
+All pages were first designed in Canva, then implemented in Cursor with React.
+
+---
+
+## 🤝 Contributors
+- Begüm Karadayı  
+- Melisa Yönder  
+- Melisa Çelik  
+
+---
+
+We can add installation instructions, API docs, screenshots, and deployment guides.
