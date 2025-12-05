@@ -80,7 +80,6 @@ function Dashboard() {
       setCourses([]);
     }
   };
-
   // Sample student data
   const sampleStudent = {
     id: '05',

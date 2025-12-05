@@ -13,7 +13,6 @@ import {
 } from 'react-icons/fa';
 import { studentsAPI, departmentsAPI, coursesAPI } from '../utils/api';
 import './Students.css';
-
 function Students() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');

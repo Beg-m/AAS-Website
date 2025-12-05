@@ -108,18 +108,18 @@ function Instructors() {
           <div className="search-filter-section">
             <div className="filter-group">
               <div className="select-wrapper">
-                  <select
-                    value={selectedDepartment}
-                    onChange={(e) => setSelectedDepartment(e.target.value)}
-                    className="department-select"
-                  >
-                    <option value="">DEPARTMENT</option>
-                    {departments.map(dept => (
-                      <option key={dept.department_id} value={dept.department_name}>
-                        {dept.department_name}
-                      </option>
-                    ))}
-                  </select>
+                <select
+                  value={selectedDepartment}
+                  onChange={(e) => setSelectedDepartment(e.target.value)}
+                  className="department-select"
+                >
+                  <option value="">DEPARTMENT</option>
+                  {departments.map(dept => (
+                    <option key={dept.department_id} value={dept.department_name}>
+                      {dept.department_name}
+                    </option>
+                  ))}
+                </select>
                 <FaChevronDown className="select-arrow" />
               </div>
               <div className="search-wrapper">
@@ -183,4 +183,3 @@ function Instructors() {
 }
 
 export default Instructors;
-
