@@ -1,277 +1,532 @@
-#  AUTOMATIC ATTENDANCE SYSTEM — Web Interface  
-AI-powered attendance tracking system using Face Recognition, Python, React, and PostgreSQL.
+**AUTOMATIC ATTENDANCE SYSTEM (AAS)**
 
-This project provides the **frontend interface** for the Automatic Attendance System (AAS).  
-The system eliminates manual roll-calling by using **AI-based facial recognition** to detect students and automatically store attendance in the database.
+A complete web-based **Automatic Attendance System (AAS)** built using **React + Vite** for the frontend and **Node.js/Express + PostgreSQL** for the backend.
+The system supports **AI-ready facial recognition attendance**, student/course management, reporting, and a modern UI.
 
----
+### 1. PROJECT OVERVIEW
 
-## 🚀 Project Overview
-The Automatic Attendance System is designed to:
+The Automatic Attendance System (AAS) is designed to automate and simplify the process of tracking student attendance using intelligent, camera-based identification.
+It provides administrative panels for managing students, instructors, courses, departments, and attendance records through a modular, scalable architecture.
+This project includes:
 
-- Automatically detect students from classroom camera footage  
-- Mark attendance with ≥95% face-recognition accuracy  
-- Allow instructors to review and edit unclear records  
-- Generate downloadable PDF/Excel attendance reports  
-- Support student self-registration and photo upload  
-- Provide an admin dashboard for system-wide management  
+**A fully functional React UI**
 
-The UI is built in **React (Cursor)** and communicates with backend APIs to handle registration, face uploads, recognition feedback, and reporting.
+• Structured as a component-based architecture for maintainability
+• Uses **React Router** for multi-page navigation (Dashboard, Students, Courses, Attendance, Reports, Settings)
+• Implements reusable UI components for tables, forms, filters, and modals
+• Developed with Vite for **high-performance development and optimized production builds**
+• Includes responsive design for desktop and laptop screens
+• Provides complete CRUD workflows (Create–Read–Update–Delete) for system entities
 
----
+**A complete Node.js/Express REST API**
 
-## 🖥️ Tech Stack
+• Organized into modular route files: *students*,*instructors*,*courses*,*attendance*,*reports*,*departments*,*auth*
+• Implements **RESTful best practices** with clear endpoints and HTTP standards
+• Includes robust input validation, error handling, and status responses
+• Uses **PostgreSQL connection pooling** for performance
+• Handles filtering, searching, pagination, and relationship queries
+• Includes a */api/health* endpoint for server diagnostics
 
-### **Frontend**
-- React (implemented in Cursor IDE)
-- Modern, component-based UI architecture
-- Responsive web design (mobile-friendly)
+**PostgreSQL database with relational schema**
 
-### **Backend**
-- Python Flask (RESTful API)
-- PostgreSQL (relational DB)
-- psycopg2 (database adapter)
-- Flask-CORS (cross-origin resource sharing)
+Designed using ERD methodology (Entity-Relationship Diagram)
 
-### **AI Module**
-- Face detection  
-- Vector-based face matching  
-- Attendance decision logic  
+- Includes core tables:   
+• students
+• instructors
+• courses
+• departments
+• attendance
+• student_course (junction table for many-to-many relationships)
+
+- Ensures data consistency through:
+• Primary Keys (PK)
+• Foreign Keys (FK)
+• Cascading rules
+
+-Schema supports:
+• Student–Course enrollment
+• Attendance linking with students & courses
+• Instructor–Course assignments
+
+**Unified production server architecture**
+
+-The Express backend serves both the **API and the compiled React frontend**
+-Allows the entire application to run on **one port**(e.g., http://localhost:5001)
+-Eliminates CORS issues thanks to same-origin architecture
+
+-Simplifies deployment on platforms like:
+• Render
+• Railway
+• Docker containers
+• On-premise university servers
+
+-Express automatically routes:
+• /api/* → Backend API
+• All other paths → dist/index.html (React SPA)
+
+
+### Comprehensive system design artifacts
+
+-> The development process is supported by full software engineering documentation:
+
+**Requirements Analysis**
+✔ Functional (FR) and Non-Functional (NFR) requirements defined
+
+**Use Case Diagrams**
+✔ Covers main actor workflows (Student, Instructor, Admin)
+
+**Detailed Use Case Descriptions**
+✔ Includes preconditions, main flow, alternative paths, postconditions
+
+**ERD (Entity-Relationship Diagram)**
+✔ Models database structure visually with PK–FK relations
+
+**Class Diagrams (if applicable)**
+✔ Documents backend module responsibilities
+
+**Sequence Diagrams**
+✔ Shows API request flow between UI → Backend → Database
 
----
+**UI Wireframes & Final Screens**
+✔ Created initially in Canva, then implemented with React
 
-## 🧩 System Features
+These documents ensure that the system is traceable, maintainable, and aligned with academic software engineering standards.
+
+
+### 2. SYSTEM ARCHITECTURE
+
+### ✔ Frontend
+-React 19
+-Vite
+-React Router DOM
+-React Icons
+-Modular page-based component structure
+
+### ✔ Backend
+-Node.js
+-Express.js
+-PostgreSQL + pg
+-dotenv
+-Unified server architecture (serves frontend + API from one port)
+
+### ✔ Development Tools
+-Cursor (AI-assisted coding)
+-Canva (UI wireframes)
+-Git/GitHub
+-ESLint
+-Docker (optional)
+
+### 3. PROJECT STRUCTURE
+
+AAS-Website/
+│
+├── backend-node/
+│   ├── **config**/
+│   │   └── db.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   ├── students.js
+│   │   ├── instructors.js
+│   │   ├── courses.js
+│   │   ├── attendance.js
+│   │   ├── reports.js
+│   │   └── departments.js
+│   ├── server.js
+│   └── **package**.json
+│
+├── src/
+│   ├── components/
+│   │   ├── Dashboard.jsx
+│   │   ├── Students.jsx
+│   │   ├── Attendance.jsx
+│   │   ├── Reports.jsx
+│   │   ├── Courses.jsx
+│   │   ├── Instructors.jsx
+│   │   └── Settings.jsx
+│   ├── utils/api.js
+│   ├── App.jsx
+│   └── main.jsx
+│
+├── dist/                   # Production build **output**
+├── public/
+├── docker-compose.yml
+├── **package**.json
+└── vite.**config**.js
 
-### 🔵 **Student Registration**
-- Students can register from the UI  
-- Admin can import students from the university system  
-- Students upload a face photo (validated by AI)  
-- The photo is processed and stored securely  
+### 4. PROJECT DEVELOPMENT PHASES
 
-### 🔵 **Attendance Taking**
-- AI analyzes real-time classroom camera footage  
-- Matches faces with stored vectors  
-- Marks attendance automatically  
-- Instructor can manually correct entries  
+This section follows the exact workflow provided in your Jira task list & final analysis document.
 
-### 🔵 **Reporting**
-- Attendance reports generated per course/date  
-- Filter by department, student, or course  
-- Export as **PDF** or **Excel**  
+### PHASE 1 — Requirements Analysis & System Design
 
----
+***1.1 Requirements Collection (AAS-95, AAS-93)***
 
-## 🗂️ System Architecture Overview
+**Documented:**
+-Functional requirements
+-Non-functional requirements
+-Actors & roles
+-System boundaries
+-Initial constraints,
 
-The system contains these main modules (summarized from project documentation):  
-:contentReference[oaicite:1]{index=1}
+**1.2 Actor & Use Case Identification (AAS-99)**
 
-- **Student Module**: registration, photo upload  
-- **Instructor Module**: attendance review/edit  
-- **Admin Module**: user management, approvals  
-- **AI Module**: face recognition + vector comparison  
-- **Database Module**: students, courses, attendance, instructors  
+**Actors:**
+-Student
+-Instructor
+-Admin
+-Face Recognition Module (future integration)
 
----
+### USE CASE DIAGRAM(AAS-107)
 
-## 🗄️ Database Tables (Summary)
+![image](https://github.com/user-attachments/assets/d2fee37c-6dcb-4bae-933b-efa55eb02aa9)
 
-**Students**  
-`student_id, name, surname, email, photo_path, face_data, department_id`
 
-**Courses**  
-`course_id, course_name, instructor_id`
 
-**Instructors**  
-`instructor_id, name, email, department_id`
+### PHASE 2 — Database Design (AAS-100, AAS-106, AAS-111, AAS-110, AAS-112)
 
-**Attendance**  
-`attendance_id, student_id, course_id, date, status`
+### 2.1 ER DIAGRAM(AAS-106)**
 
-**Department**  
-`department_id, department_name`
+**Tables include:**
+-students
+-instructors
+-departments
+-courses
+-student_course (many-to-many)
+-attendance
 
----
+![image](https://github.com/user-attachments/assets/20d9a595-b5c9-4507-b054-a7d966728a6e)
 
-## 🧪 Functional Requirements (Key Points)
+### SEQUENCE DIAGRAM (AAS-108)
 
-- Students must be able to register + upload facial photo  
-- System must detect faces ≥95% accuracy  
-- Attendance must be marked automatically  
-- Instructors must be able to edit unclear records  
-- Reports must export as PDF/Excel  
+Sequence diagrams were created for the following use cases:
 
----
+->Add Student
+->Face Enrollment
+->Take Attendance (Camera)
+->View Attendance
+->Generate Reports
 
-## 🔐 Non-Functional Requirements (Highlights)
+![image](https://github.com/user-attachments/assets/b4d05884-4aba-4e36-8e2c-2d1125e391b1)
 
-- Face processing time ≤ 2 seconds  
-- Data stored in encrypted format  
-- System supports 50+ concurrent students  
-- Login requires two-factor authentication  
-- UI must work on mobile devices  
 
----
+**2.2 Database Implementation**
 
-## 🛠️ Development Workflow
+✔ PostgreSQL schema created
+✔ Sample data inserted
+✔ Relationships tested
+✔ Node.js DB connection established
 
-This project followed a structured EPIC → Story → Task workflow:  
-- Requirements Analysis  
-- Database Schema Creation  
-- UI Design for Web Application(Canva → Cursor)  
-- Backend Development  
-- System Management & Post-Deployment Operations
+### PHASE 3 — UI/UX Design (AAS-114, AAS-115, AAS-116, AAS-118)
 
----
+**3.1 Wireframe Design (Canva)**
 
-## 💻 Frontend Pages (Cursor Implementation)
-- Login / Register  
-- Admin Dashboard  
-- Student Registration  
-- Face Upload Page  
-- Attendance Review Page  
-- Reporting Dashboard  
+**Designed screens:**
+-Login
+-Dashboard
+-Students Page
+-Instructors Page
+-Courses
+-Attendance
+-Reports
+-Settings
 
-All pages were first designed in Canva, then implemented in Cursor with React.
+### UI Design Placeholder
 
----
+1. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/eb1420d2-a29c-4f0c-9268-6b778d11e907" />
 
-## 🤝 Contributors
-- Begüm Karadayı  
-- Melisa Yönder  
-- Melisa Çelik  
+2. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/f857d158-f01f-4626-8af2-1397ccd63865" />
 
----
+3. <img width="525" height="295" alt="image" src="https://github.com/user-attachments/assets/fbaafd40-8d68-4ec4-ad70-b696cedcf3d1" />
 
----
+4.<img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/12cc2772-aae5-4ac4-bc2b-9d84b5185008" />
 
-## 📦 Installation & Setup
+5. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/d33c1ddf-b9d5-4c07-b725-98ff5a0e531b" />
 
-### Prerequisites
-- Node.js (for frontend)
-- Python 3.8+ (for backend)
-- PostgreSQL 12+
+6. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/aa7857f5-79ce-4cb2-9a51-2fddbd2d660e" />
 
-### Frontend Setup
+7. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/2442286d-88e3-4842-ad10-5847514a6ebf" />
 
-1. Install dependencies:
-```bash
-npm install
-```
+8. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/0e8a186f-41a2-495b-9d45-6a4b84e6a2df" />
 
-2. Start development server:
-```bash
-npm run dev
-```
+9. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/6d1b581c-eebc-47a2-a2f5-24c75474528f" />
 
-The frontend will be available at `http://localhost:5173`
+10. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/55cd31ef-50a2-4c23-9e7c-89f86c656744" />
 
-### Backend Setup
+11.<img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/128b55e7-8de8-4e7a-811b-6fdf08d16c09" />
 
-1. Navigate to backend directory:
-```bash
-cd backend
-```
+### 3.2 High-Fidelity UI (Cursor AI + React)
 
-2. Run setup script:
-```bash
-./setup.sh
-```
+**Developed reusable components:**
 
-Or manually:
-```bash
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+-Sidebar navigation
+-Search bars
+-Filter dropdowns
+-Cards & tables
+-Forms
+-Charts
 
-# Install dependencies
-pip install -r requirements.txt
+### UI Screens Placeholder
 
-# Create .env file (copy from .env.example and update credentials)
-cp .env.example .env
-```
+1. <img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/73708a5b-843f-4d72-ae3d-203df2ea075d" />
 
-3. Setup PostgreSQL database:
-```bash
-# Create database
-createdb aas_database
+2. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/76dc371a-bb17-4668-a020-37adde7e0788" />
 
-# Initialize schema
-psql -U postgres -d aas_database -f database/schema.sql
-```
+3. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/4ee4fa2b-1948-4284-9a16-afb1069f7666" />
 
-4. Update `.env` file with your database credentials
+4. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/a419f371-f052-4383-bbdc-e487b79397bd" />
 
-5. Start backend server:
-```bash
-python app.py
-```
+5. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/08509ecd-ceef-4f8d-9949-7a20b766ff2f" />
 
-The backend API will be available at `http://localhost:5000`
+6. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/b9de43e1-c9a2-4782-857b-87e101a29e05" />
 
----
+7.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/b05e392c-e85c-4856-af74-da7f50a9e933" />
 
-## 🔌 API Endpoints
+8.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/8182e578-cf1f-44a0-a16e-1911dfdfbe92" />
 
-### Authentication
-- `POST /api/login` - User authentication
+9.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/5c179ecc-615d-4287-bb88-05c06a423bf3" />
 
-### Students
-- `GET /api/students` - Get all students (with filters)
-- `GET /api/students/<id>` - Get student by ID
-- `POST /api/students` - Create new student
-- `PUT /api/students/<id>` - Update student
-- `DELETE /api/students/<id>` - Delete student
-- `GET /api/students/courses` - Get students with courses
+10.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/92e98ac7-6421-430f-be54-4fc491b4bb82" />
 
-### Instructors
-- `GET /api/instructors` - Get all instructors (with filters)
+11.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/9c1138f5-14f8-408f-8637-d0b087f5e671" />
 
-### Courses
-- `GET /api/courses` - Get all courses (with filters)
+12.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/56bb9914-cdac-4167-b4bc-9eb2e75637e6" />
 
-### Attendance
-- `GET /api/attendance` - Get attendance records (with filters)
-- `POST /api/attendance` - Create attendance record
+13.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/081e6c84-95cd-49da-b538-629086a6374e" />
 
-### Reports
-- `GET /api/reports/attendance-summary` - Get attendance summary
-- `GET /api/reports/attendance-rate` - Get attendance rate by course
+14.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/24406603-7542-453d-966f-562ec1ada862" />
 
-### Departments
-- `GET /api/departments` - Get all departments
+15.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/7bc3f68f-2e07-43a3-9c71-d083e0d096c1" />
 
-For detailed API documentation, see `backend/README.md`
+16.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/fe04446d-be14-4783-a342-cfce7da3e92b" />
 
----
+17. <img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/9b1040a7-b096-4ee8-8aed-d007d917f217" />
 
-## 🗄️ Database Schema
+18.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/05c1a6bb-f94e-4449-9ae6-1538d9898037" />
 
-The database includes the following tables:
-- **employee** - System administrators
-- **department** - University departments
-- **student** - Student information with face data
-- **instructor** - Instructor information
-- **course** - Course information
-- **attendance** - Attendance records
-- **student_course** - Many-to-many relationship between students and courses
 
-See `backend/database/schema.sql` for complete schema definition.
+### PHASE 4 — Frontend Development (React + Vite)
 
----
+**4.1 Routing System**
 
-## 🚀 Running the Full Stack
+Implemented using **React Router DOM:**
 
-1. Start PostgreSQL service
-2. Start backend: `cd backend && python app.py`
-3. Start frontend: `npm run dev`
-4. Access the application at `http://localhost:5173`
+/ → Dashboard  
+/students  
+/instructors  
+/courses  
+/attendance  
+/reports  
+/settings  
 
----
+**4.2 State & API Integration**
 
-## 📝 Notes
+Using api.js, all backend requests were centralized:
 
-- The frontend is configured to connect to `http://localhost:5000` for API calls
-- Update `src/utils/api.js` if your backend runs on a different port
-- Default login credentials are in the database schema (see `schema.sql`)
-- All API endpoints return JSON responses
+export const API_URL = "/api";   // relative path for unified server
+
+export async function getStudents() {
+  return fetch(`${API_URL}/students`).then(res => res.json());
+}
+
+
+### 4.3 Components Developed
+
+  **Component**	                           **Purpose**
+  Dashboard.jsx	                    System summary & quick actions
+  Students.jsx	                    Add/edit/delete/search students
+  Attendance.jsx	                  Attendance table & filtering
+  Reports.jsx	                      Future reporting features
+  Courses.jsx	                      Course list & instructor mapping
+  Instructors.jsx	                  Instructor management
+  Settings.jsx                      Profile & system config
+
+
+### PHASE 5 — Backend Development (Node.js + Express)
+
+***5.1 Backend Setup (AAS-123)***
+
+npm init  
+npm install express pg cors dotenv
+
+
+**5.2 Database Connection Layer (AAS-119)**
+
+db.js contains PostgreSQL pool:
+
+const pool = new Pool({
+  host: process.env.DB_HOST || "localhost",
+  port: process.env.DB_PORT || 5433,
+  user: process.env.DB_USER || "postgres",
+  password: process.env.DB_PASSWORD || "postgres",
+  database: process.env.DB_NAME || "aas_database",
+});
+
+
+**5.3 REST API Endpoints**
+
+**Students API (AAS-127)**
+
+GET /api/students
+POST /api/students
+PUT /api/students/:id
+DELETE /api/students/:id
+
+**Attendance API (AAS-140)**
+
+GET /api/attendance
+POST /api/attendance
+
+**Reports API (AAS-144)**
+
+GET /api/reports/attendance-summary
+GET /api/reports/attendance-rate
+
+
+**Face Enrollment & Processing (AAS-131)**
+
+☑ API prepared
+☑ Ready for integration with AI face-recognition module
+
+### PHASE 6 — Unified Production Server (AAS-152)
+
+**The backend serves both:**
+
+- **/api/** → Express REST API
+- **React production build** → /dist
+  
+**Static File Hosting**
+
+app.use(express.static(path.join(__dirname, "..", "dist")));
+
+**SPA Routing Support**
+
+app.get("*", (req, res) => {
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ error: "Route not found" });
+  }
+  res.sendFile(path.join(buildPath, "index.html"));
+});
+
+**RESULT**
+✔ No CORS issues
+✔ Both frontend + backend run on same port
+✔ Simple deployment (Docker or plain Node)
+
+
+### 7. API DOCUMENTATION
+
+**Students**
+
+GET /api/students
+POST /api/students
+GET /api/students/:id
+PUT /api/students/:id
+DELETE /api/students/:id
+
+**Instructors**
+
+GET /api/instructors
+Courses
+GET /api/courses
+
+**Attendance**
+
+GET /api/attendance
+POST /api/attendance
+
+**Reports**
+
+GET /api/reports/attendance-summary
+Departments
+GET /api/departments
+
+**Health Check**
+
+GET /api/health
+
+
+
+This project is part of the **SE 342 Software Validation and Testing course** project at Maltepe University.
+
+**Team Members**
+
+Begüm KARADAYI - Student ID: 220706023
+Melisa ÇELİK - Student ID: 220706025
+Melisa YÖNDER - Student ID: 220706029
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
