@@ -1,9 +1,9 @@
-**AUTOMATIC ATTENDANCE SYSTEM (AAS)**
+### AUTOMATIC ATTENDANCE SYSTEM
 
 A complete web-based **Automatic Attendance System (AAS)** built using **React + Vite** for the frontend and **Node.js/Express + PostgreSQL** for the backend.
 The system supports **AI-ready facial recognition attendance**, student/course management, reporting, and a modern UI.
 
-### 1. PROJECT OVERVIEW
+### 1.PROJECT OVERVİEW
 
 The Automatic Attendance System (AAS) is designed to automate and simplify the process of tracking student attendance using intelligent, camera-based identification.
 It provides administrative panels for managing students, instructors, courses, departments, and attendance records through a modular, scalable architecture.
