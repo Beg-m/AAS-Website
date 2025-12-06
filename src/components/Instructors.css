@@ -1,0 +1,240 @@
+/* Instructors Page Styles */
+.content-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.instructors-header {
+  margin-bottom: 2rem;
+}
+
+.instructors-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Search and Filter Section */
+.search-filter-section {
+  margin-bottom: 2rem;
+}
+
+.filter-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.department-select {
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  background-color: #ffffff;
+  cursor: pointer;
+  appearance: none;
+  min-width: 180px;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #ffffff;
+  background-color: #333;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+  background-color: #333;
+  color: #ffffff;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-button {
+  padding: 0.75rem 2rem;
+  background-color: #1976d2;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.search-button:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+}
+
+.search-button:active {
+  transform: translateY(0);
+}
+
+/* Table Container */
+.table-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  overflow-y: visible;
+  max-width: 100%;
+}
+
+.instructors-table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.instructors-table thead {
+  background-color: #f5f5f5;
+}
+
+.instructors-table th {
+  padding: 0.875rem 0.75rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.instructors-table td {
+  padding: 0.875rem 0.75rem;
+  font-size: 0.85rem;
+  color: #666;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+.instructors-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.instructors-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.instructors-table tbody tr:nth-child(even):hover {
+  background-color: #f5f5f5;
+}
+
+.instructors-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* AI AAS Logo */
+.ai-aas-logo {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+
+.ai-aas-button {
+  background-color: #1976d2;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+}
+
+.ai-aas-button:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+}
+
+.ai-aas-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .instructors-table {
+    font-size: 0.85rem;
+  }
+
+  .instructors-table th,
+  .instructors-table td {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .instructors-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .instructors-table {
+    min-width: 700px;
+  }
+}
+
