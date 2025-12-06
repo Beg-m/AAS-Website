@@ -119,40 +119,7 @@ These documents ensure that the system is traceable, maintainable, and aligned w
 
 ### 3. PROJECT STRUCTURE
 
-AAS-Website/
-│
-├── backend-node/
-│   ├── **config**/
-│   │   └── db.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   ├── students.js
-│   │   ├── instructors.js
-│   │   ├── courses.js
-│   │   ├── attendance.js
-│   │   ├── reports.js
-│   │   └── departments.js
-│   ├── server.js
-│   └── **package**.json
-│
-├── src/
-│   ├── components/
-│   │   ├── Dashboard.jsx
-│   │   ├── Students.jsx
-│   │   ├── Attendance.jsx
-│   │   ├── Reports.jsx
-│   │   ├── Courses.jsx
-│   │   ├── Instructors.jsx
-│   │   └── Settings.jsx
-│   ├── utils/api.js
-│   ├── App.jsx
-│   └── main.jsx
-│
-├── dist/                   # Production build **output**
-├── public/
-├── docker-compose.yml
-├── **package**.json
-└── vite.**config**.js
+<img width="432" height="613" alt="image" src="https://github.com/user-attachments/assets/a368441b-f947-41e1-806b-34827120066e" />
 
 ### 4. PROJECT DEVELOPMENT PHASES
 
