@@ -1,277 +1,632 @@
-#  AUTOMATIC ATTENDANCE SYSTEM — Web Interface  
-AI-powered attendance tracking system using Face Recognition, Python, React, and PostgreSQL.
+# AUTOMATIC ATTENDANCE SYSTEM (AAS) — Web Interface
 
-This project provides the **frontend interface** for the Automatic Attendance System (AAS).  
-The system eliminates manual roll-calling by using **AI-based facial recognition** to detect students and automatically store attendance in the database.
+## 📋 Proje Özeti
 
----
+**Otomatik Yoklama Sistemi (AAS)**, yüz tanıma teknolojisi kullanarak öğrencilerin derslere katılımını otomatik olarak takip eden bir web uygulamasıdır. Bu proje, React (frontend) ve Node.js/Express (backend) teknolojileri kullanılarak geliştirilmiştir.
 
-## 🚀 Project Overview
-The Automatic Attendance System is designed to:
-
-- Automatically detect students from classroom camera footage  
-- Mark attendance with ≥95% face-recognition accuracy  
-- Allow instructors to review and edit unclear records  
-- Generate downloadable PDF/Excel attendance reports  
-- Support student self-registration and photo upload  
-- Provide an admin dashboard for system-wide management  
-
-The UI is built in **React (Cursor)** and communicates with backend APIs to handle registration, face uploads, recognition feedback, and reporting.
+**Ana Özellikler:**
+- AI destekli yüz tanıma ile otomatik yoklama
+- Öğrenci, öğretmen ve ders yönetimi
+- Detaylı yoklama raporları ve istatistikler
+- Kullanıcı dostu web arayüzü
+- Tek port üzerinden çalışan unified server yapısı
 
 ---
 
-## 🖥️ Tech Stack
+## 🛠️ Kullanılan Teknolojiler
 
-### **Frontend**
-- React (implemented in Cursor IDE)
-- Modern, component-based UI architecture
-- Responsive web design (mobile-friendly)
+### Frontend
+- **React 19.2.0** - Modern UI framework
+- **Vite 7.2.4** - Hızlı build tool ve development server
+- **React Router DOM 7.9.6** - Sayfa yönlendirme
+- **React Icons 5.5.0** - İkon kütüphanesi
+- **CSS3** - Stil yönetimi
 
-### **Backend**
-- Python Flask (RESTful API)
-- PostgreSQL (relational DB)
-- psycopg2 (database adapter)
-- Flask-CORS (cross-origin resource sharing)
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web framework
+- **PostgreSQL** - İlişkisel veritabanı
+- **pg (node-postgres)** - PostgreSQL client
+- **CORS** - Cross-origin resource sharing
+- **dotenv** - Environment variables yönetimi
 
-### **AI Module**
-- Face detection  
-- Vector-based face matching  
-- Attendance decision logic  
-
----
-
-## 🧩 System Features
-
-### 🔵 **Student Registration**
-- Students can register from the UI  
-- Admin can import students from the university system  
-- Students upload a face photo (validated by AI)  
-- The photo is processed and stored securely  
-
-### 🔵 **Attendance Taking**
-- AI analyzes real-time classroom camera footage  
-- Matches faces with stored vectors  
-- Marks attendance automatically  
-- Instructor can manually correct entries  
-
-### 🔵 **Reporting**
-- Attendance reports generated per course/date  
-- Filter by department, student, or course  
-- Export as **PDF** or **Excel**  
+### Development Tools
+- **ESLint** - Code linting
+- **Docker** - Containerization (opsiyonel)
+- **Git** - Version control
 
 ---
 
-## 🗂️ System Architecture Overview
+## 📁 Proje Yapısı
 
-The system contains these main modules (summarized from project documentation):  
-:contentReference[oaicite:1]{index=1}
-
-- **Student Module**: registration, photo upload  
-- **Instructor Module**: attendance review/edit  
-- **Admin Module**: user management, approvals  
-- **AI Module**: face recognition + vector comparison  
-- **Database Module**: students, courses, attendance, instructors  
-
----
-
-## 🗄️ Database Tables (Summary)
-
-**Students**  
-`student_id, name, surname, email, photo_path, face_data, department_id`
-
-**Courses**  
-`course_id, course_name, instructor_id`
-
-**Instructors**  
-`instructor_id, name, email, department_id`
-
-**Attendance**  
-`attendance_id, student_id, course_id, date, status`
-
-**Department**  
-`department_id, department_name`
-
----
-
-## 🧪 Functional Requirements (Key Points)
-
-- Students must be able to register + upload facial photo  
-- System must detect faces ≥95% accuracy  
-- Attendance must be marked automatically  
-- Instructors must be able to edit unclear records  
-- Reports must export as PDF/Excel  
-
----
-
-## 🔐 Non-Functional Requirements (Highlights)
-
-- Face processing time ≤ 2 seconds  
-- Data stored in encrypted format  
-- System supports 50+ concurrent students  
-- Login requires two-factor authentication  
-- UI must work on mobile devices  
+```
+AAS-Website-main/
+├── backend-node/              # Node.js backend sunucusu
+│   ├── config/
+│   │   └── db.js             # Veritabanı bağlantı yapılandırması
+│   ├── routes/               # API route dosyaları
+│   │   ├── auth.js          # Kimlik doğrulama endpoint'leri
+│   │   ├── students.js      # Öğrenci yönetimi endpoint'leri
+│   │   ├── instructors.js   # Öğretmen yönetimi endpoint'leri
+│   │   ├── courses.js       # Ders yönetimi endpoint'leri
+│   │   ├── attendance.js    # Yoklama endpoint'leri
+│   │   ├── reports.js       # Rapor endpoint'leri
+│   │   └── departments.js   # Bölüm endpoint'leri
+│   ├── server.js            # Ana Express sunucusu
+│   └── package.json         # Backend bağımlılıkları
+│
+├── src/                      # React frontend kaynak dosyaları
+│   ├── components/          # React bileşenleri
+│   │   ├── Login.jsx       # Giriş sayfası
+│   │   ├── Register.jsx    # Kayıt sayfası
+│   │   ├── Dashboard.jsx   # Ana dashboard
+│   │   ├── Students.jsx    # Öğrenci yönetimi sayfası
+│   │   ├── Instructors.jsx # Öğretmen yönetimi sayfası
+│   │   ├── Courses.jsx     # Ders yönetimi sayfası
+│   │   ├── Attendance.jsx  # Yoklama sayfası
+│   │   ├── Reports.jsx     # Rapor sayfası
+│   │   └── Settings.jsx    # Ayarlar sayfası
+│   ├── utils/
+│   │   └── api.js          # API çağrı yardımcı fonksiyonları
+│   ├── App.jsx             # Ana React uygulaması
+│   └── main.jsx            # Uygulama giriş noktası
+│
+├── public/                   # Statik dosyalar
+├── dist/                     # Build edilmiş production dosyaları
+├── docker-compose.yml        # Docker yapılandırması
+├── vite.config.js           # Vite yapılandırması
+└── package.json             # Frontend bağımlılıkları
+```
 
 ---
 
-## 🛠️ Development Workflow
+## 🚀 Proje Geliştirme Aşamaları (Adım Adım)
 
-This project followed a structured EPIC → Story → Task workflow:  
-- Requirements Analysis  
-- Database Schema Creation  
-- UI Design for Web Application(Canva → Cursor)  
-- Backend Development  
-- System Management & Post-Deployment Operations
+### **AŞAMA 1: Proje Planlama ve Gereksinim Analizi**
 
----
+#### 1.1. Proje Kapsamının Belirlenmesi
+- Otomatik yoklama sistemi için gereksinimler toplandı
+- Sistem mimarisi tasarlandı
+- Kullanılacak teknolojiler belirlendi
 
-## 💻 Frontend Pages (Cursor Implementation)
-- Login / Register  
-- Admin Dashboard  
-- Student Registration  
-- Face Upload Page  
-- Attendance Review Page  
-- Reporting Dashboard  
+#### 1.2. Veritabanı Şeması Tasarımı
+Aşağıdaki ana tablolar tasarlandı:
+- **students** - Öğrenci bilgileri (ID, ad, soyad, email, fotoğraf yolu, yüz verisi)
+- **instructors** - Öğretmen bilgileri (ID, ad, email, bölüm)
+- **courses** - Ders bilgileri (ID, ders adı, öğretmen ID)
+- **departments** - Bölüm bilgileri (ID, bölüm adı)
+- **attendance** - Yoklama kayıtları (ID, öğrenci ID, ders ID, tarih, durum)
+- **student_course** - Öğrenci-ders ilişki tablosu (many-to-many)
 
-All pages were first designed in Canva, then implemented in Cursor with React.
-
----
-
-## 🤝 Contributors
-- Begüm Karadayı  
-- Melisa Yönder  
-- Melisa Çelik  
-
----
+#### 1.3. API Endpoint Tasarımı
+RESTful API yapısı planlandı:
+- `/api/login` - Kullanıcı girişi
+- `/api/students` - Öğrenci CRUD işlemleri
+- `/api/instructors` - Öğretmen listeleme
+- `/api/courses` - Ders listeleme
+- `/api/attendance` - Yoklama kayıtları
+- `/api/reports` - Rapor oluşturma
+- `/api/departments` - Bölüm listeleme
 
 ---
 
-## 📦 Installation & Setup
+### **AŞAMA 2: UI/UX Tasarımı**
 
-### Prerequisites
-- Node.js (for frontend)
-- Python 3.8+ (for backend)
-- PostgreSQL 12+
+#### 2.1. Canva ile Tasarım Aşaması
+- Tüm sayfa tasarımları önce Canva'da görsel olarak tasarlandı
+- Kullanıcı akışları (user flow) belirlendi
+- Renk paleti ve tipografi seçildi
 
-### Frontend Setup
+#### 2.2. Tasarılan Sayfalar
+1. **Login Sayfası** - Kullanıcı girişi için form
+2. **Register Sayfası** - Yeni kullanıcı kaydı
+3. **Dashboard** - Ana kontrol paneli ve özet istatistikler
+4. **Öğrenci Yönetimi** - Öğrenci listesi, ekleme, düzenleme, silme
+5. **Öğretmen Yönetimi** - Öğretmen listesi ve filtreleme
+6. **Ders Yönetimi** - Ders listesi ve filtreleme
+7. **Yoklama Sayfası** - Yoklama kayıtlarının görüntülenmesi ve yönetimi
+8. **Raporlar** - Detaylı yoklama raporları ve istatistikler
+9. **Ayarlar** - Sistem ayarları
 
-1. Install dependencies:
+---
+
+### **AŞAMA 3: Frontend Geliştirme (React + Vite)**
+
+#### 3.1. Proje Kurulumu
 ```bash
+# Vite ile React projesi oluşturuldu
+npm create vite@latest . -- --template react
 npm install
 ```
 
-2. Start development server:
+#### 3.2. React Router Kurulumu
+- Sayfa yönlendirme için React Router DOM yüklendi
+- Route yapısı `App.jsx` içinde tanımlandı
+
+#### 3.3. Bileşen Geliştirme
+Her sayfa için ayrı bir bileşen oluşturuldu:
+
+**Login.jsx**
+- Kullanıcı adı ve şifre girişi
+- API'ye authentication isteği gönderimi
+- Başarılı girişte dashboard'a yönlendirme
+
+**Register.jsx**
+- Yeni kullanıcı kayıt formu
+- Form validasyonu
+- API'ye kayıt isteği gönderimi
+
+**Dashboard.jsx**
+- Sistem özet istatistikleri
+- Hızlı erişim linkleri
+- Grafik ve görselleştirmeler
+
+**Students.jsx**
+- Öğrenci listesi tablosu
+- Arama ve filtreleme özellikleri
+- CRUD işlemleri (Create, Read, Update, Delete)
+- Sayfalama (pagination)
+
+**Instructors.jsx**
+- Öğretmen listesi
+- Bölüm bazlı filtreleme
+- Detaylı öğretmen bilgileri
+
+**Courses.jsx**
+- Ders listesi
+- Öğretmen bazlı filtreleme
+- Ders detayları
+
+**Attendance.jsx**
+- Yoklama kayıtları listesi
+- Tarih, ders, öğrenci bazlı filtreleme
+- Yoklama durumu görüntüleme ve düzenleme
+
+**Reports.jsx**
+- Yoklama özet raporları
+- İstatistiksel analizler
+- PDF/Excel export özelliği (planlandı)
+
+**Settings.jsx**
+- Kullanıcı ayarları
+- Sistem yapılandırmaları
+
+#### 3.4. API Yardımcı Fonksiyonları
+`src/utils/api.js` dosyası oluşturuldu:
+- Merkezi API çağrı fonksiyonu
+- Hata yönetimi
+- Authentication token yönetimi
+- Tüm API endpoint'leri için wrapper fonksiyonlar
+
+#### 3.5. Stil Dosyaları
+Her bileşen için ayrı CSS dosyası oluşturuldu:
+- Modern ve responsive tasarım
+- Mobil uyumlu layout
+- Tutarlı renk şeması
+
+---
+
+### **AŞAMA 4: Backend Geliştirme (Node.js + Express)**
+
+#### 4.1. Backend Projesi Kurulumu
 ```bash
-npm run dev
+cd backend-node
+npm init -y
+npm install express cors pg dotenv
 ```
 
-The frontend will be available at `http://localhost:5173`
+#### 4.2. Veritabanı Yapılandırması
+`config/db.js` dosyası oluşturuldu:
+- PostgreSQL connection pool yapılandırması
+- Environment variables ile bağlantı bilgileri
+- Connection event handler'ları (connect, error)
 
-### Backend Setup
+**Veritabanı Bağlantı Ayarları:**
+- Host: localhost (veya DB_HOST env variable)
+- Port: 5433 (veya DB_PORT env variable)
+- Database: aas_database (veya DB_NAME env variable)
+- User: postgres (veya DB_USER env variable)
+- Password: postgres (veya DB_PASSWORD env variable)
 
-1. Navigate to backend directory:
+#### 4.3. Express Sunucusu Oluşturulması
+`server.js` dosyası oluşturuldu:
+
+**Middleware Yapılandırması:**
+- CORS (Cross-Origin Resource Sharing) yapılandırması
+- JSON body parser
+- URL encoded body parser
+- Static file serving (production build için)
+
+**Route Yapısı:**
+- Tüm API route'ları `/api` prefix'i ile başlar
+- Route dosyaları `routes/` klasöründe modüler olarak organize edildi
+
+#### 4.4. Route Dosyalarının Geliştirilmesi
+
+**routes/auth.js**
+- `POST /api/login` - Kullanıcı girişi
+- `POST /api/register` - Kullanıcı kaydı
+
+**routes/students.js**
+- `GET /api/students` - Tüm öğrencileri listele (query params: search, department)
+- `GET /api/students/:id` - ID'ye göre öğrenci getir
+- `POST /api/students` - Yeni öğrenci ekle
+- `PUT /api/students/:id` - Öğrenci bilgilerini güncelle
+- `DELETE /api/students/:id` - Öğrenci sil
+- `GET /api/students/courses` - Öğrenci-ders ilişkilerini getir
+
+**routes/instructors.js**
+- `GET /api/instructors` - Tüm öğretmenleri listele (query params: search, department)
+
+**routes/courses.js**
+- `GET /api/courses` - Tüm dersleri listele (query params: search, instructor_id)
+
+**routes/attendance.js**
+- `GET /api/attendance` - Yoklama kayıtlarını getir (query params: name_surname, course, date, search)
+- `POST /api/attendance` - Yeni yoklama kaydı oluştur
+
+**routes/reports.js**
+- `GET /api/reports/attendance-summary` - Yoklama özet raporu (query params: course, department, start_date, end_date)
+- `GET /api/reports/attendance-rate` - Yoklama oranları (query params: course, department)
+
+**routes/departments.js**
+- `GET /api/departments` - Tüm bölümleri listele
+
+#### 4.5. Hata Yönetimi
+- Global error handling middleware eklendi
+- Tüm hatalar JSON formatında döndürülüyor
+- Console'da hata loglama
+
+#### 4.6. Health Check Endpoint
+- `GET /api/health` - Sunucu durumu kontrolü için endpoint
+
+---
+
+### **AŞAMA 5: Frontend-Backend Entegrasyonu**
+
+#### 5.1. API Yapılandırması
+`src/utils/api.js` dosyasında:
+- Base URL `/api` olarak ayarlandı (relative path)
+- Tüm API çağrıları bu utility fonksiyonları üzerinden yapılıyor
+- Error handling ve response parsing merkezi olarak yönetiliyor
+
+#### 5.2. CORS Yapılandırması
+Backend'de CORS ayarları:
+- Frontend portları (5173, 3000) ve backend portu (5001) için izin verildi
+- Credentials desteği aktif
+
+#### 5.3. Component-API Entegrasyonu
+Her React bileşeninde:
+- `useState` ile API'den gelen veriler state'te tutuldu
+- `useEffect` ile component mount olduğunda API çağrıları yapıldı
+- Loading ve error state'leri yönetildi
+- Kullanıcı etkileşimlerinde (form submit, buton click) API çağrıları tetiklendi
+
+---
+
+### **AŞAMA 6: Production Build ve Unified Server Yapısı**
+
+#### 6.1. Frontend Production Build
 ```bash
-cd backend
+npm run build
+```
+- Vite, `src/` klasöründeki React uygulamasını `dist/` klasörüne build eder
+- Optimize edilmiş, minify edilmiş JavaScript ve CSS dosyaları oluşturulur
+- Build dosyaları statik olarak servis edilebilir hale gelir
+
+#### 6.2. Unified Server Yapılandırması
+`backend-node/server.js` dosyasında yapılan değişiklikler:
+
+**Static File Serving:**
+```javascript
+const buildPath = path.join(__dirname, '..', 'dist');
+app.use(express.static(buildPath));
 ```
 
-2. Run setup script:
-```bash
-./setup.sh
+**Single Page Application (SPA) Routing:**
+```javascript
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'Route not found' });
+  }
+  res.sendFile(path.join(buildPath, 'index.html'));
+});
 ```
 
-Or manually:
+#### 6.3. Tek Port Üzerinden Çalışma
+- Backend sunucusu hem API endpoint'lerini hem de frontend'i aynı porttan (5001) servis eder
+- API istekleri `/api/*` path'i ile backend'e yönlendirilir
+- Diğer tüm istekler React uygulamasına yönlendirilir
+- Bu sayede CORS sorunları ortadan kalkar ve deployment kolaylaşır
+
+---
+
+### **AŞAMA 7: Git Repository Yönetimi**
+
+#### 7.1. Git Repository Başlatma
 ```bash
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create .env file (copy from .env.example and update credentials)
-cp .env.example .env
+git init
+git remote add origin https://github.com/Beg-m/AAS-Website.git
 ```
 
-3. Setup PostgreSQL database:
+#### 7.2. Dosya Yapısı Commit Edildi
+- Tüm proje dosyaları commit edildi
+- `.gitignore` dosyası ile gereksiz dosyalar hariç tutuldu
+
+#### 7.3. Remote Repository ile Senkronizasyon
 ```bash
-# Create database
+git pull origin main --allow-unrelated-histories
+```
+- GitHub repository'den mevcut değişiklikler çekildi
+- Local ve remote değişiklikler merge edildi
+
+---
+
+## 📦 Kurulum ve Çalıştırma
+
+### Gereksinimler
+- **Node.js** (v18 veya üzeri)
+- **npm** (Node.js ile birlikte gelir)
+- **PostgreSQL** (v12 veya üzeri)
+- **Git** (opsiyonel, repository'yi klonlamak için)
+
+### Adım 1: Projeyi İndirin
+
+```bash
+# GitHub'dan klonlayın
+git clone https://github.com/Beg-m/AAS-Website.git
+cd AAS-Website-main
+```
+
+### Adım 2: Frontend Bağımlılıklarını Yükleyin
+
+```bash
+# Proje kök dizininde
+npm install
+```
+
+Bu komut şunları yükler:
+- React ve React DOM
+- React Router DOM
+- React Icons
+- Vite ve development dependencies
+- ESLint ve diğer linting araçları
+
+### Adım 3: Backend Bağımlılıklarını Yükleyin
+
+```bash
+cd backend-node
+npm install
+```
+
+Bu komut şunları yükler:
+- Express.js
+- PostgreSQL client (pg)
+- CORS
+- dotenv
+
+### Adım 4: Veritabanı Kurulumu
+
+PostgreSQL veritabanınızın çalıştığından emin olun. Ardından veritabanını oluşturun:
+
+```bash
+# PostgreSQL'e bağlanın ve veritabanı oluşturun
 createdb aas_database
 
-# Initialize schema
-psql -U postgres -d aas_database -f database/schema.sql
+# Veya psql ile
+psql -U postgres
+CREATE DATABASE aas_database;
 ```
 
-4. Update `.env` file with your database credentials
+**Not:** Veritabanı şeması (tablolar) Python backend veya migration script'leri ile oluşturulmalıdır. Şu anda Node.js backend sadece mevcut tablolara erişim sağlar.
 
-5. Start backend server:
+### Adım 5: Environment Variables (Opsiyonel)
+
+Eğer varsayılan veritabanı ayarlarından farklı kullanmak istiyorsanız, `backend-node` klasöründe `.env` dosyası oluşturun:
+
+```env
+PORT=5001
+DB_HOST=localhost
+DB_PORT=5433
+DB_NAME=aas_database
+DB_USER=postgres
+DB_PASSWORD=postgres
+```
+
+### Adım 6: Frontend'i Build Edin
+
 ```bash
-python app.py
+# Proje kök dizininde
+npm run build
 ```
 
-The backend API will be available at `http://localhost:5000`
+Bu komut `dist/` klasöründe production-ready dosyalar oluşturur.
+
+### Adım 7: Sunucuyu Başlatın
+
+```bash
+cd backend-node
+npm start
+```
+
+Sunucu `http://localhost:5001` adresinde başlatılacaktır.
+
+### Adım 8: Uygulamaya Erişin
+
+Tarayıcınızda şu adresi açın:
+```
+http://localhost:5001
+```
 
 ---
 
-## 🔌 API Endpoints
+## 🔌 API Endpoint'leri
+
+Tüm API endpoint'leri `/api` prefix'i ile başlar ve JSON formatında yanıt döner.
 
 ### Authentication
-- `POST /api/login` - User authentication
+- `POST /api/login` - Kullanıcı girişi
+  - Body: `{ username, password }`
+  - Response: `{ token, user }`
 
-### Students
-- `GET /api/students` - Get all students (with filters)
-- `GET /api/students/<id>` - Get student by ID
-- `POST /api/students` - Create new student
-- `PUT /api/students/<id>` - Update student
-- `DELETE /api/students/<id>` - Delete student
-- `GET /api/students/courses` - Get students with courses
+### Students (Öğrenciler)
+- `GET /api/students` - Tüm öğrencileri listele
+  - Query params: `search`, `department`
+- `GET /api/students/:id` - ID'ye göre öğrenci getir
+- `POST /api/students` - Yeni öğrenci ekle
+  - Body: `{ name, surname, email, department_id, ... }`
+- `PUT /api/students/:id` - Öğrenci bilgilerini güncelle
+- `DELETE /api/students/:id` - Öğrenci sil
+- `GET /api/students/courses` - Öğrenci-ders ilişkileri
+  - Query params: `search`, `course`
 
-### Instructors
-- `GET /api/instructors` - Get all instructors (with filters)
+### Instructors (Öğretmenler)
+- `GET /api/instructors` - Tüm öğretmenleri listele
+  - Query params: `search`, `department`
 
-### Courses
-- `GET /api/courses` - Get all courses (with filters)
+### Courses (Dersler)
+- `GET /api/courses` - Tüm dersleri listele
+  - Query params: `search`, `instructor_id`
 
-### Attendance
-- `GET /api/attendance` - Get attendance records (with filters)
-- `POST /api/attendance` - Create attendance record
+### Attendance (Yoklama)
+- `GET /api/attendance` - Yoklama kayıtlarını getir
+  - Query params: `name_surname`, `course`, `date`, `search`
+- `POST /api/attendance` - Yeni yoklama kaydı oluştur
+  - Body: `{ student_id, course_id, date, status }`
 
-### Reports
-- `GET /api/reports/attendance-summary` - Get attendance summary
-- `GET /api/reports/attendance-rate` - Get attendance rate by course
+### Reports (Raporlar)
+- `GET /api/reports/attendance-summary` - Yoklama özet raporu
+  - Query params: `course`, `department`, `start_date`, `end_date`
+- `GET /api/reports/attendance-rate` - Yoklama oranları
+  - Query params: `course`, `department`
 
-### Departments
-- `GET /api/departments` - Get all departments
+### Departments (Bölümler)
+- `GET /api/departments` - Tüm bölümleri listele
 
-For detailed API documentation, see `backend/README.md`
-
----
-
-## 🗄️ Database Schema
-
-The database includes the following tables:
-- **employee** - System administrators
-- **department** - University departments
-- **student** - Student information with face data
-- **instructor** - Instructor information
-- **course** - Course information
-- **attendance** - Attendance records
-- **student_course** - Many-to-many relationship between students and courses
-
-See `backend/database/schema.sql` for complete schema definition.
+### Health Check
+- `GET /api/health` - Sunucu durumu
+  - Response: `{ status: "ok", message: "AAS API is running" }`
 
 ---
 
-## 🚀 Running the Full Stack
+## 🗄️ Veritabanı Yapısı
 
-1. Start PostgreSQL service
-2. Start backend: `cd backend && python app.py`
-3. Start frontend: `npm run dev`
-4. Access the application at `http://localhost:5173`
+### Tablolar
+
+**students**
+- `student_id` (PRIMARY KEY)
+- `name`
+- `surname`
+- `email`
+- `photo_path`
+- `face_data`
+- `department_id` (FOREIGN KEY -> departments)
+
+**instructors**
+- `instructor_id` (PRIMARY KEY)
+- `name`
+- `email`
+- `department_id` (FOREIGN KEY -> departments)
+
+**courses**
+- `course_id` (PRIMARY KEY)
+- `course_name`
+- `instructor_id` (FOREIGN KEY -> instructors)
+
+**departments**
+- `department_id` (PRIMARY KEY)
+- `department_name`
+
+**attendance**
+- `attendance_id` (PRIMARY KEY)
+- `student_id` (FOREIGN KEY -> students)
+- `course_id` (FOREIGN KEY -> courses)
+- `date`
+- `status`
+
+**student_course**
+- `student_id` (FOREIGN KEY -> students)
+- `course_id` (FOREIGN KEY -> courses)
+- PRIMARY KEY (student_id, course_id)
 
 ---
 
-## 📝 Notes
+## 🚀 Development Mode
 
-- The frontend is configured to connect to `http://localhost:5000` for API calls
-- Update `src/utils/api.js` if your backend runs on a different port
-- Default login credentials are in the database schema (see `schema.sql`)
-- All API endpoints return JSON responses
+Geliştirme sırasında frontend ve backend'i ayrı ayrı çalıştırabilirsiniz:
+
+### Frontend Development Server
+```bash
+# Proje kök dizininde
+npm run dev
+```
+Frontend `http://localhost:5173` adresinde çalışacaktır (Vite default portu).
+
+### Backend Development Server
+```bash
+cd backend-node
+npm run dev
+```
+Backend `http://localhost:5001` adresinde çalışacaktır.
+
+**Not:** Development modunda, frontend'in API çağrıları için `src/utils/api.js` dosyasında base URL'in doğru yapılandırıldığından emin olun.
+
+---
+
+## 🐳 Docker Kullanımı (Opsiyonel)
+
+Proje `docker-compose.yml` dosyası ile Docker container'ları olarak çalıştırılabilir. Detaylar için `DOCKER_SETUP.md` dosyasına bakın.
+
+```bash
+docker-compose up -d
+```
+
+---
+
+## 📝 Önemli Notlar
+
+1. **Single Port Architecture:** Production modunda, hem frontend hem backend tek bir porttan (5001) servis edilir. Bu sayede CORS sorunları ortadan kalkar ve deployment kolaylaşır.
+
+2. **API Base URL:** Frontend'de API çağrıları relative path (`/api`) kullanır. Bu sayede aynı origin'den geldiği için CORS gerektirmez.
+
+3. **Build Process:** Her değişiklikten sonra production'a deploy etmek için frontend'i tekrar build etmeniz gerekir:
+   ```bash
+   npm run build
+   ```
+
+4. **Veritabanı Şeması:** Node.js backend, mevcut veritabanı tablolarına erişim sağlar. Tabloların Python backend veya SQL script'leri ile önceden oluşturulması gerekir.
+
+5. **Environment Variables:** Veritabanı bağlantı bilgileri için `backend-node/.env` dosyası oluşturulabilir. Varsayılan değerler `config/db.js` dosyasında tanımlıdır.
+
+---
+
+## 🤝 Geliştiriciler
+
+- **Begüm Karadayı**
+- **Melisa Yönder**
+- **Melisa Çelik**
+
+---
+
+## 📄 Lisans
+
+Bu proje eğitim amaçlı geliştirilmiştir.
+
+---
+
+## 🔗 İlgili Dokümantasyon
+
+- [Backend Node.js README](backend-node/README.md)
+- [Docker Setup Guide](DOCKER_SETUP.md)
+
+---
+
+## 🎯 Gelecek Geliştirmeler
+
+- [ ] Yüz tanıma modülü entegrasyonu
+- [ ] PDF/Excel export özelliği
+- [ ] Real-time yoklama takibi
+- [ ] Mobil uygulama geliştirme
+- [ ] Authentication token yönetimi iyileştirmesi
+- [ ] Unit ve integration testleri
+- [ ] CI/CD pipeline kurulumu
