@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FaTachometerAlt, 
   FaUserGraduate, 
@@ -9,17 +9,20 @@ import {
   FaChartBar,
   FaCog,
   FaSearch,
-  FaChevronDown
+  FaChevronDown,
+  FaPlus
 } from 'react-icons/fa';
 import { coursesAPI } from '../utils/api';
 import './Courses.css';
 
 function Courses() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedInstructor, setSelectedInstructor] = useState(null);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' });
 
   useEffect(() => {
     loadCourses();
@@ -54,6 +57,32 @@ function Courses() {
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleDeleteClick = (course) => {
+    setDeleteConfirm({
+      show: true,
+      id: course.course_id,
+      name: course.course_name
+    });
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      setLoading(true);
+      await coursesAPI.delete(deleteConfirm.id);
+      setDeleteConfirm({ show: false, id: null, name: '' });
+      await loadCourses();
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      alert('Failed to delete course: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteConfirm({ show: false, id: null, name: '' });
   };
 
   return (
@@ -106,6 +135,9 @@ function Courses() {
           {/* Header */}
           <div className="courses-header">
             <h1 className="courses-title">Courses</h1>
+            <button className="add-new-button" onClick={() => navigate('/courses/add')}>
+              <FaPlus /> Add New Course
+            </button>
           </div>
 
           {/* Search Section */}
@@ -140,16 +172,17 @@ function Courses() {
                   <th>Instructor ID</th>
                   <th>Course ID</th>
                   <th>Name</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="3" style={{ textAlign: 'center', padding: '20px' }}>Loading...</td>
+                    <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>Loading...</td>
                   </tr>
                 ) : courses.length === 0 ? (
                   <tr>
-                    <td colSpan="3" style={{ textAlign: 'center', padding: '20px' }}>No courses found</td>
+                    <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>No courses found</td>
                   </tr>
                 ) : (
                   courses.map((course, index) => (
@@ -157,6 +190,14 @@ function Courses() {
                       <td>{course.instructor_id}</td>
                       <td className="course-id">{course.course_id}</td>
                       <td>{course.course_name}</td>
+                      <td>
+                        <button 
+                          className="delete-button"
+                          onClick={() => handleDeleteClick(course)}
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))
                 )}
@@ -164,6 +205,25 @@ function Courses() {
             </table>
           </div>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirm.show && (
+          <div className="modal-overlay" onClick={handleDeleteCancel}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h3>Confirm Delete</h3>
+              <p>Are you sure you want to delete <strong>{deleteConfirm.name}</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+              <div className="modal-buttons">
+                <button className="cancel-button" onClick={handleDeleteCancel}>
+                  Cancel
+                </button>
+                <button className="confirm-delete-button" onClick={handleDeleteConfirm}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* AI AAS Logo */}
         <div className="ai-aas-logo">

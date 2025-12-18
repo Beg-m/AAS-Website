@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FaTachometerAlt, 
   FaUserGraduate, 
@@ -9,18 +9,21 @@ import {
   FaChartBar,
   FaCog,
   FaSearch,
-  FaChevronDown
+  FaChevronDown,
+  FaPlus
 } from 'react-icons/fa';
 import { instructorsAPI, departmentsAPI } from '../utils/api';
 import './Instructors.css';
 
 function Instructors() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [instructors, setInstructors] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' });
 
   useEffect(() => {
     loadDepartments();
@@ -50,6 +53,32 @@ function Instructors() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDeleteClick = (instructor) => {
+    setDeleteConfirm({
+      show: true,
+      id: instructor.instructor_id,
+      name: `${instructor.instructor_name} ${instructor.instructor_surname}`
+    });
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      setLoading(true);
+      await instructorsAPI.delete(deleteConfirm.id);
+      setDeleteConfirm({ show: false, id: null, name: '' });
+      await loadInstructors();
+    } catch (error) {
+      console.error('Error deleting instructor:', error);
+      alert('Failed to delete instructor: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteConfirm({ show: false, id: null, name: '' });
   };
 
   return (
@@ -102,6 +131,9 @@ function Instructors() {
           {/* Header */}
           <div className="instructors-header">
             <h1 className="instructors-title">Instructors</h1>
+            <button className="add-new-button" onClick={() => navigate('/instructors/add')}>
+              <FaPlus /> Add New Instructor
+            </button>
           </div>
 
           {/* Search and Filter */}
@@ -146,16 +178,17 @@ function Instructors() {
                   <th>Surname</th>
                   <th>Email</th>
                   <th>Department</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }}>Loading...</td>
+                    <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>Loading...</td>
                   </tr>
                 ) : instructors.length === 0 ? (
                   <tr>
-                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }}>No instructors found</td>
+                    <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>No instructors found</td>
                   </tr>
                 ) : (
                   instructors.map((instructor) => (
@@ -165,6 +198,14 @@ function Instructors() {
                       <td>{instructor.instructor_surname}</td>
                       <td>{instructor.instructor_email}</td>
                       <td>{instructor.department}</td>
+                      <td>
+                        <button 
+                          className="delete-button"
+                          onClick={() => handleDeleteClick(instructor)}
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))
                 )}
@@ -172,6 +213,25 @@ function Instructors() {
             </table>
           </div>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirm.show && (
+          <div className="modal-overlay" onClick={handleDeleteCancel}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h3>Confirm Delete</h3>
+              <p>Are you sure you want to delete <strong>{deleteConfirm.name}</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+              <div className="modal-buttons">
+                <button className="cancel-button" onClick={handleDeleteCancel}>
+                  Cancel
+                </button>
+                <button className="confirm-delete-button" onClick={handleDeleteConfirm}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* AI AAS Logo */}
         <div className="ai-aas-logo">

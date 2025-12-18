@@ -44,5 +44,73 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Create instructor
+router.post('/', async (req, res) => {
+  try {
+    const { instructor_id, instructor_name, instructor_surname, instructor_email, department_id } = req.body;
+
+    if (!instructor_id || !instructor_name || !instructor_surname || !instructor_email || !department_id) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: instructor_id, name, surname, email, and department_id are required' 
+      });
+    }
+
+    // Check if instructor_id already exists
+    const checkResult = await pool.query(
+      'SELECT instructor_id FROM instructor WHERE instructor_id = $1',
+      [instructor_id]
+    );
+
+    if (checkResult.rows.length > 0) {
+      return res.status(400).json({ error: 'Instructor ID already exists' });
+    }
+
+    // Insert instructor
+    const result = await pool.query(
+      `INSERT INTO instructor (instructor_id, instructor_name, instructor_surname, 
+                               instructor_email, department_id)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING instructor_id`,
+      [instructor_id, instructor_name, instructor_surname, instructor_email, department_id]
+    );
+
+    res.status(201).json({
+      success: true,
+      instructor_id: result.rows[0].instructor_id
+    });
+  } catch (error) {
+    console.error('Create instructor error:', error);
+    let errorMsg = error.message;
+    if (error.message.includes('duplicate key') || error.message.includes('unique constraint')) {
+      if (error.message.includes('email')) {
+        errorMsg = 'This email address is already registered';
+      } else {
+        errorMsg = 'An instructor with this information already exists';
+      }
+    }
+    res.status(500).json({ error: errorMsg });
+  }
+});
+
+// Delete instructor
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query(
+      'DELETE FROM instructor WHERE instructor_id = $1 RETURNING instructor_id',
+      [id]
+    );
+
+    if (result.rows.length > 0) {
+      res.json({ success: true });
+    } else {
+      res.status(404).json({ error: 'Instructor not found' });
+    }
+  } catch (error) {
+    console.error('Delete instructor error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;
 

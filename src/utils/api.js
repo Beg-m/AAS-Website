@@ -99,6 +99,17 @@ export const instructorsAPI = {
     const query = params.toString() ? `?${params.toString()}` : '';
     return apiCall(`/instructors${query}`);
   },
+  create: async (instructorData) => {
+    return apiCall('/instructors', {
+      method: 'POST',
+      body: instructorData,
+    });
+  },
+  delete: async (id) => {
+    return apiCall(`/instructors/${id}`, {
+      method: 'DELETE',
+    });
+  },
 };
 
 // Courses API
@@ -109,6 +120,17 @@ export const coursesAPI = {
     if (instructorId) params.append('instructor_id', instructorId);
     const query = params.toString() ? `?${params.toString()}` : '';
     return apiCall(`/courses${query}`);
+  },
+  create: async (courseData) => {
+    return apiCall('/courses', {
+      method: 'POST',
+      body: courseData,
+    });
+  },
+  delete: async (id) => {
+    return apiCall(`/courses/${id}`, {
+      method: 'DELETE',
+    });
   },
 };
 

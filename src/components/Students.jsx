@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FaTachometerAlt, 
   FaUserGraduate, 
@@ -9,12 +9,14 @@ import {
   FaChartBar,
   FaCog,
   FaSearch,
-  FaChevronDown
+  FaChevronDown,
+  FaPlus
 } from 'react-icons/fa';
 import { studentsAPI, departmentsAPI, coursesAPI } from '../utils/api';
 import './Students.css';
 function Students() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
@@ -24,6 +26,7 @@ function Students() {
   const [departments, setDepartments] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' });
 
   useEffect(() => {
     loadDepartments();
@@ -198,6 +201,33 @@ function Students() {
     }
   };
 
+  const handleDeleteClick = (student) => {
+    setDeleteConfirm({
+      show: true,
+      id: student.student_id,
+      name: `${student.student_name} ${student.student_surname}`
+    });
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      setLoading(true);
+      await studentsAPI.delete(deleteConfirm.id);
+      setDeleteConfirm({ show: false, id: null, name: '' });
+      // Reload students list
+      await loadStudents();
+    } catch (error) {
+      console.error('Error deleting student:', error);
+      alert('Failed to delete student: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteConfirm({ show: false, id: null, name: '' });
+  };
+
   return (
     <div className="dashboard-container">
       {/* Left Sidebar */}
@@ -247,23 +277,28 @@ function Students() {
         <div className="content-wrapper">
           {/* Header */}
           <div className="students-header">
-            <h1 className="students-title">
-              {viewMode === 'students' ? 'Students' : 'Students & Courses'}
-            </h1>
-            <div className="view-toggle">
-              <button 
-                className={`toggle-button ${viewMode === 'students' ? 'active' : ''}`}
-                onClick={() => setViewMode('students')}
-              >
-                Students
-              </button>
-              <button 
-                className={`toggle-button ${viewMode === 'courses' ? 'active' : ''}`}
-                onClick={() => setViewMode('courses')}
-              >
-                Students & Courses
-              </button>
+            <div className="header-left">
+              <h1 className="students-title">
+                {viewMode === 'students' ? 'Students' : 'Students & Courses'}
+              </h1>
+              <div className="view-toggle">
+                <button 
+                  className={`toggle-button ${viewMode === 'students' ? 'active' : ''}`}
+                  onClick={() => setViewMode('students')}
+                >
+                  Students
+                </button>
+                <button 
+                  className={`toggle-button ${viewMode === 'courses' ? 'active' : ''}`}
+                  onClick={() => setViewMode('courses')}
+                >
+                  Students & Courses
+                </button>
+              </div>
             </div>
+            <button className="add-new-button" onClick={() => navigate('/students/add')}>
+              <FaPlus /> Add New Student
+            </button>
           </div>
 
           {/* Search and Filter */}
@@ -370,11 +405,19 @@ function Students() {
                         <td className="photo-path">{student.photo_path || 'N/A'}</td>
                         <td className="face-data">{student.face_data ? student.face_data.substring(0, 30) + '...' : 'N/A'}</td>
                         <td>
-                          {student.face_data ? (
-                            <a href="#" className="view-link">view &gt;</a>
-                          ) : (
-                            <button className="enroll-face-button">Enroll Face</button>
-                          )}
+                          <div className="action-buttons">
+                            {student.face_data ? (
+                              <a href="#" className="view-link">view &gt;</a>
+                            ) : (
+                              <button className="enroll-face-button">Enroll Face</button>
+                            )}
+                            <button 
+                              className="delete-button"
+                              onClick={() => handleDeleteClick(student)}
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -419,6 +462,25 @@ function Students() {
             </div>
           )}
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirm.show && (
+          <div className="modal-overlay" onClick={handleDeleteCancel}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h3>Confirm Delete</h3>
+              <p>Are you sure you want to delete <strong>{deleteConfirm.name}</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+              <div className="modal-buttons">
+                <button className="cancel-button" onClick={handleDeleteCancel}>
+                  Cancel
+                </button>
+                <button className="confirm-delete-button" onClick={handleDeleteConfirm}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* AI AAS Logo */}
         <div className="ai-aas-logo">

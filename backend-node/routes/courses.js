@@ -42,5 +42,78 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Create course
+router.post('/', async (req, res) => {
+  try {
+    const { course_id, course_name, instructor_id } = req.body;
+
+    if (!course_id || !course_name || !instructor_id) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: course_id, course_name, and instructor_id are required' 
+      });
+    }
+
+    // Check if course_id already exists
+    const checkResult = await pool.query(
+      'SELECT course_id FROM course WHERE course_id = $1',
+      [course_id]
+    );
+
+    if (checkResult.rows.length > 0) {
+      return res.status(400).json({ error: 'Course ID already exists' });
+    }
+
+    // Verify instructor exists
+    const instructorCheck = await pool.query(
+      'SELECT instructor_id FROM instructor WHERE instructor_id = $1',
+      [instructor_id]
+    );
+
+    if (instructorCheck.rows.length === 0) {
+      return res.status(400).json({ error: 'Instructor not found' });
+    }
+
+    // Insert course
+    const result = await pool.query(
+      `INSERT INTO course (course_id, course_name, instructor_id)
+       VALUES ($1, $2, $3)
+       RETURNING course_id`,
+      [course_id, course_name, instructor_id]
+    );
+
+    res.status(201).json({
+      success: true,
+      course_id: result.rows[0].course_id
+    });
+  } catch (error) {
+    console.error('Create course error:', error);
+    let errorMsg = error.message;
+    if (error.message.includes('duplicate key') || error.message.includes('unique constraint')) {
+      errorMsg = 'A course with this ID already exists';
+    }
+    res.status(500).json({ error: errorMsg });
+  }
+});
+
+// Delete course
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query(
+      'DELETE FROM course WHERE course_id = $1 RETURNING course_id',
+      [id]
+    );
+
+    if (result.rows.length > 0) {
+      res.json({ success: true });
+    } else {
+      res.status(404).json({ error: 'Course not found' });
+    }
+  } catch (error) {
+    console.error('Delete course error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;
 
