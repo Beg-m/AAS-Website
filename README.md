@@ -1,632 +1,499 @@
-# AUTOMATIC ATTENDANCE SYSTEM (AAS) — Web Interface
-
-## 📋 Proje Özeti
-
-**Otomatik Yoklama Sistemi (AAS)**, yüz tanıma teknolojisi kullanarak öğrencilerin derslere katılımını otomatik olarak takip eden bir web uygulamasıdır. Bu proje, React (frontend) ve Node.js/Express (backend) teknolojileri kullanılarak geliştirilmiştir.
-
-**Ana Özellikler:**
-- AI destekli yüz tanıma ile otomatik yoklama
-- Öğrenci, öğretmen ve ders yönetimi
-- Detaylı yoklama raporları ve istatistikler
-- Kullanıcı dostu web arayüzü
-- Tek port üzerinden çalışan unified server yapısı
-
----
-
-## 🛠️ Kullanılan Teknolojiler
-
-### Frontend
-- **React 19.2.0** - Modern UI framework
-- **Vite 7.2.4** - Hızlı build tool ve development server
-- **React Router DOM 7.9.6** - Sayfa yönlendirme
-- **React Icons 5.5.0** - İkon kütüphanesi
-- **CSS3** - Stil yönetimi
-
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web framework
-- **PostgreSQL** - İlişkisel veritabanı
-- **pg (node-postgres)** - PostgreSQL client
-- **CORS** - Cross-origin resource sharing
-- **dotenv** - Environment variables yönetimi
-
-### Development Tools
-- **ESLint** - Code linting
-- **Docker** - Containerization (opsiyonel)
-- **Git** - Version control
-
----
-
-## 📁 Proje Yapısı
-
-```
-AAS-Website-main/
-├── backend-node/              # Node.js backend sunucusu
-│   ├── config/
-│   │   └── db.js             # Veritabanı bağlantı yapılandırması
-│   ├── routes/               # API route dosyaları
-│   │   ├── auth.js          # Kimlik doğrulama endpoint'leri
-│   │   ├── students.js      # Öğrenci yönetimi endpoint'leri
-│   │   ├── instructors.js   # Öğretmen yönetimi endpoint'leri
-│   │   ├── courses.js       # Ders yönetimi endpoint'leri
-│   │   ├── attendance.js    # Yoklama endpoint'leri
-│   │   ├── reports.js       # Rapor endpoint'leri
-│   │   └── departments.js   # Bölüm endpoint'leri
-│   ├── server.js            # Ana Express sunucusu
-│   └── package.json         # Backend bağımlılıkları
-│
-├── src/                      # React frontend kaynak dosyaları
-│   ├── components/          # React bileşenleri
-│   │   ├── Login.jsx       # Giriş sayfası
-│   │   ├── Register.jsx    # Kayıt sayfası
-│   │   ├── Dashboard.jsx   # Ana dashboard
-│   │   ├── Students.jsx    # Öğrenci yönetimi sayfası
-│   │   ├── Instructors.jsx # Öğretmen yönetimi sayfası
-│   │   ├── Courses.jsx     # Ders yönetimi sayfası
-│   │   ├── Attendance.jsx  # Yoklama sayfası
-│   │   ├── Reports.jsx     # Rapor sayfası
-│   │   └── Settings.jsx    # Ayarlar sayfası
-│   ├── utils/
-│   │   └── api.js          # API çağrı yardımcı fonksiyonları
-│   ├── App.jsx             # Ana React uygulaması
-│   └── main.jsx            # Uygulama giriş noktası
-│
-├── public/                   # Statik dosyalar
-├── dist/                     # Build edilmiş production dosyaları
-├── docker-compose.yml        # Docker yapılandırması
-├── vite.config.js           # Vite yapılandırması
-└── package.json             # Frontend bağımlılıkları
-```
-
----
-
-## 🚀 Proje Geliştirme Aşamaları (Adım Adım)
-
-### **AŞAMA 1: Proje Planlama ve Gereksinim Analizi**
-
-#### 1.1. Proje Kapsamının Belirlenmesi
-- Otomatik yoklama sistemi için gereksinimler toplandı
-- Sistem mimarisi tasarlandı
-- Kullanılacak teknolojiler belirlendi
-
-#### 1.2. Veritabanı Şeması Tasarımı
-Aşağıdaki ana tablolar tasarlandı:
-- **students** - Öğrenci bilgileri (ID, ad, soyad, email, fotoğraf yolu, yüz verisi)
-- **instructors** - Öğretmen bilgileri (ID, ad, email, bölüm)
-- **courses** - Ders bilgileri (ID, ders adı, öğretmen ID)
-- **departments** - Bölüm bilgileri (ID, bölüm adı)
-- **attendance** - Yoklama kayıtları (ID, öğrenci ID, ders ID, tarih, durum)
-- **student_course** - Öğrenci-ders ilişki tablosu (many-to-many)
-
-#### 1.3. API Endpoint Tasarımı
-RESTful API yapısı planlandı:
-- `/api/login` - Kullanıcı girişi
-- `/api/students` - Öğrenci CRUD işlemleri
-- `/api/instructors` - Öğretmen listeleme
-- `/api/courses` - Ders listeleme
-- `/api/attendance` - Yoklama kayıtları
-- `/api/reports` - Rapor oluşturma
-- `/api/departments` - Bölüm listeleme
-
----
-
-### **AŞAMA 2: UI/UX Tasarımı**
-
-#### 2.1. Canva ile Tasarım Aşaması
-- Tüm sayfa tasarımları önce Canva'da görsel olarak tasarlandı
-- Kullanıcı akışları (user flow) belirlendi
-- Renk paleti ve tipografi seçildi
-
-#### 2.2. Tasarılan Sayfalar
-1. **Login Sayfası** - Kullanıcı girişi için form
-2. **Register Sayfası** - Yeni kullanıcı kaydı
-3. **Dashboard** - Ana kontrol paneli ve özet istatistikler
-4. **Öğrenci Yönetimi** - Öğrenci listesi, ekleme, düzenleme, silme
-5. **Öğretmen Yönetimi** - Öğretmen listesi ve filtreleme
-6. **Ders Yönetimi** - Ders listesi ve filtreleme
-7. **Yoklama Sayfası** - Yoklama kayıtlarının görüntülenmesi ve yönetimi
-8. **Raporlar** - Detaylı yoklama raporları ve istatistikler
-9. **Ayarlar** - Sistem ayarları
-
----
-
-### **AŞAMA 3: Frontend Geliştirme (React + Vite)**
-
-#### 3.1. Proje Kurulumu
-```bash
-# Vite ile React projesi oluşturuldu
-npm create vite@latest . -- --template react
-npm install
-```
-
-#### 3.2. React Router Kurulumu
-- Sayfa yönlendirme için React Router DOM yüklendi
-- Route yapısı `App.jsx` içinde tanımlandı
-
-#### 3.3. Bileşen Geliştirme
-Her sayfa için ayrı bir bileşen oluşturuldu:
-
-**Login.jsx**
-- Kullanıcı adı ve şifre girişi
-- API'ye authentication isteği gönderimi
-- Başarılı girişte dashboard'a yönlendirme
-
-**Register.jsx**
-- Yeni kullanıcı kayıt formu
-- Form validasyonu
-- API'ye kayıt isteği gönderimi
-
-**Dashboard.jsx**
-- Sistem özet istatistikleri
-- Hızlı erişim linkleri
-- Grafik ve görselleştirmeler
-
-**Students.jsx**
-- Öğrenci listesi tablosu
-- Arama ve filtreleme özellikleri
-- CRUD işlemleri (Create, Read, Update, Delete)
-- Sayfalama (pagination)
-
-**Instructors.jsx**
-- Öğretmen listesi
-- Bölüm bazlı filtreleme
-- Detaylı öğretmen bilgileri
-
-**Courses.jsx**
-- Ders listesi
-- Öğretmen bazlı filtreleme
-- Ders detayları
-
-**Attendance.jsx**
-- Yoklama kayıtları listesi
-- Tarih, ders, öğrenci bazlı filtreleme
-- Yoklama durumu görüntüleme ve düzenleme
-
-**Reports.jsx**
-- Yoklama özet raporları
-- İstatistiksel analizler
-- PDF/Excel export özelliği (planlandı)
-
-**Settings.jsx**
-- Kullanıcı ayarları
-- Sistem yapılandırmaları
-
-#### 3.4. API Yardımcı Fonksiyonları
-`src/utils/api.js` dosyası oluşturuldu:
-- Merkezi API çağrı fonksiyonu
-- Hata yönetimi
-- Authentication token yönetimi
-- Tüm API endpoint'leri için wrapper fonksiyonlar
-
-#### 3.5. Stil Dosyaları
-Her bileşen için ayrı CSS dosyası oluşturuldu:
-- Modern ve responsive tasarım
-- Mobil uyumlu layout
-- Tutarlı renk şeması
-
----
-
-### **AŞAMA 4: Backend Geliştirme (Node.js + Express)**
-
-#### 4.1. Backend Projesi Kurulumu
-```bash
-cd backend-node
-npm init -y
-npm install express cors pg dotenv
-```
-
-#### 4.2. Veritabanı Yapılandırması
-`config/db.js` dosyası oluşturuldu:
-- PostgreSQL connection pool yapılandırması
-- Environment variables ile bağlantı bilgileri
-- Connection event handler'ları (connect, error)
-
-**Veritabanı Bağlantı Ayarları:**
-- Host: localhost (veya DB_HOST env variable)
-- Port: 5433 (veya DB_PORT env variable)
-- Database: aas_database (veya DB_NAME env variable)
-- User: postgres (veya DB_USER env variable)
-- Password: postgres (veya DB_PASSWORD env variable)
-
-#### 4.3. Express Sunucusu Oluşturulması
-`server.js` dosyası oluşturuldu:
-
-**Middleware Yapılandırması:**
-- CORS (Cross-Origin Resource Sharing) yapılandırması
-- JSON body parser
-- URL encoded body parser
-- Static file serving (production build için)
-
-**Route Yapısı:**
-- Tüm API route'ları `/api` prefix'i ile başlar
-- Route dosyaları `routes/` klasöründe modüler olarak organize edildi
-
-#### 4.4. Route Dosyalarının Geliştirilmesi
-
-**routes/auth.js**
-- `POST /api/login` - Kullanıcı girişi
-- `POST /api/register` - Kullanıcı kaydı
-
-**routes/students.js**
-- `GET /api/students` - Tüm öğrencileri listele (query params: search, department)
-- `GET /api/students/:id` - ID'ye göre öğrenci getir
-- `POST /api/students` - Yeni öğrenci ekle
-- `PUT /api/students/:id` - Öğrenci bilgilerini güncelle
-- `DELETE /api/students/:id` - Öğrenci sil
-- `GET /api/students/courses` - Öğrenci-ders ilişkilerini getir
-
-**routes/instructors.js**
-- `GET /api/instructors` - Tüm öğretmenleri listele (query params: search, department)
-
-**routes/courses.js**
-- `GET /api/courses` - Tüm dersleri listele (query params: search, instructor_id)
-
-**routes/attendance.js**
-- `GET /api/attendance` - Yoklama kayıtlarını getir (query params: name_surname, course, date, search)
-- `POST /api/attendance` - Yeni yoklama kaydı oluştur
-
-**routes/reports.js**
-- `GET /api/reports/attendance-summary` - Yoklama özet raporu (query params: course, department, start_date, end_date)
-- `GET /api/reports/attendance-rate` - Yoklama oranları (query params: course, department)
-
-**routes/departments.js**
-- `GET /api/departments` - Tüm bölümleri listele
-
-#### 4.5. Hata Yönetimi
-- Global error handling middleware eklendi
-- Tüm hatalar JSON formatında döndürülüyor
-- Console'da hata loglama
-
-#### 4.6. Health Check Endpoint
-- `GET /api/health` - Sunucu durumu kontrolü için endpoint
-
----
-
-### **AŞAMA 5: Frontend-Backend Entegrasyonu**
-
-#### 5.1. API Yapılandırması
-`src/utils/api.js` dosyasında:
-- Base URL `/api` olarak ayarlandı (relative path)
-- Tüm API çağrıları bu utility fonksiyonları üzerinden yapılıyor
-- Error handling ve response parsing merkezi olarak yönetiliyor
-
-#### 5.2. CORS Yapılandırması
-Backend'de CORS ayarları:
-- Frontend portları (5173, 3000) ve backend portu (5001) için izin verildi
-- Credentials desteği aktif
-
-#### 5.3. Component-API Entegrasyonu
-Her React bileşeninde:
-- `useState` ile API'den gelen veriler state'te tutuldu
-- `useEffect` ile component mount olduğunda API çağrıları yapıldı
-- Loading ve error state'leri yönetildi
-- Kullanıcı etkileşimlerinde (form submit, buton click) API çağrıları tetiklendi
-
----
-
-### **AŞAMA 6: Production Build ve Unified Server Yapısı**
-
-#### 6.1. Frontend Production Build
-```bash
-npm run build
-```
-- Vite, `src/` klasöründeki React uygulamasını `dist/` klasörüne build eder
-- Optimize edilmiş, minify edilmiş JavaScript ve CSS dosyaları oluşturulur
-- Build dosyaları statik olarak servis edilebilir hale gelir
-
-#### 6.2. Unified Server Yapılandırması
-`backend-node/server.js` dosyasında yapılan değişiklikler:
-
-**Static File Serving:**
-```javascript
-const buildPath = path.join(__dirname, '..', 'dist');
-app.use(express.static(buildPath));
-```
-
-**Single Page Application (SPA) Routing:**
-```javascript
-app.get('*', (req, res) => {
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ error: 'Route not found' });
-  }
-  res.sendFile(path.join(buildPath, 'index.html'));
+### AUTOMATIC ATTENDANCE SYSTEM
+
+A complete web-based **Automatic Attendance System (AAS)** built using **React + Vite** for the frontend and **Node.js/Express + PostgreSQL** for the backend.
+The system supports **AI-ready facial recognition attendance**, student/course management, reporting, and a modern UI.
+
+### 1.PROJECT OVERVİEW
+
+The Automatic Attendance System (AAS) is designed to automate and simplify the process of tracking student attendance using intelligent, camera-based identification.
+It provides administrative panels for managing students, instructors, courses, departments, and attendance records through a modular, scalable architecture.
+This project includes:
+
+**A fully functional React UI**
+
+• Structured as a component-based architecture for maintainability
+• Uses **React Router** for multi-page navigation (Dashboard, Students, Courses, Attendance, Reports, Settings)
+• Implements reusable UI components for tables, forms, filters, and modals
+• Developed with Vite for **high-performance development and optimized production builds**
+• Includes responsive design for desktop and laptop screens
+• Provides complete CRUD workflows (Create–Read–Update–Delete) for system entities
+
+**A complete Node.js/Express REST API**
+
+• Organized into modular route files: *students*,*instructors*,*courses*,*attendance*,*reports*,*departments*,*auth*
+• Implements **RESTful best practices** with clear endpoints and HTTP standards
+• Includes robust input validation, error handling, and status responses
+• Uses **PostgreSQL connection pooling** for performance
+• Handles filtering, searching, pagination, and relationship queries
+• Includes a */api/health* endpoint for server diagnostics
+
+**PostgreSQL database with relational schema**
+
+Designed using ERD methodology (Entity-Relationship Diagram)
+
+- Includes core tables:   
+• students
+• instructors
+• courses
+• departments
+• attendance
+• student_course (junction table for many-to-many relationships)
+
+- Ensures data consistency through:
+• Primary Keys (PK)
+• Foreign Keys (FK)
+• Cascading rules
+
+-Schema supports:
+• Student–Course enrollment
+• Attendance linking with students & courses
+• Instructor–Course assignments
+
+**Unified production server architecture**
+
+-The Express backend serves both the **API and the compiled React frontend**
+-Allows the entire application to run on **one port**(e.g., http://localhost:5001)
+-Eliminates CORS issues thanks to same-origin architecture
+
+-Simplifies deployment on platforms like:
+• Render
+• Railway
+• Docker containers
+• On-premise university servers
+
+-Express automatically routes:
+• /api/* → Backend API
+• All other paths → dist/index.html (React SPA)
+
+
+### Comprehensive system design artifacts
+
+-> The development process is supported by full software engineering documentation:
+
+**Requirements Analysis**
+✔ Functional (FR) and Non-Functional (NFR) requirements defined
+
+**Use Case Diagrams**
+✔ Covers main actor workflows (Student, Instructor, Admin)
+
+**Detailed Use Case Descriptions**
+✔ Includes preconditions, main flow, alternative paths, postconditions
+
+**ERD (Entity-Relationship Diagram)**
+✔ Models database structure visually with PK–FK relations
+
+**Class Diagrams (if applicable)**
+✔ Documents backend module responsibilities
+
+**Sequence Diagrams**
+✔ Shows API request flow between UI → Backend → Database
+
+**UI Wireframes & Final Screens**
+✔ Created initially in Canva, then implemented with React
+
+These documents ensure that the system is traceable, maintainable, and aligned with academic software engineering standards.
+
+
+### 2. SYSTEM ARCHITECTURE
+
+### ✔ Frontend
+-React 19
+-Vite
+-React Router DOM
+-React Icons
+-Modular page-based component structure
+
+### ✔ Backend
+-Node.js
+-Express.js
+-PostgreSQL + pg
+-dotenv
+-Unified server architecture (serves frontend + API from one port)
+
+### ✔ Development Tools
+-Cursor (AI-assisted coding)
+-Canva (UI wireframes)
+-Git/GitHub
+-ESLint
+-Docker (optional)
+
+### 3. PROJECT STRUCTURE
+
+<img width="432" height="613" alt="image" src="https://github.com/user-attachments/assets/a368441b-f947-41e1-806b-34827120066e" />
+
+### 4. PROJECT DEVELOPMENT PHASES
+
+This section follows the exact workflow provided in your Jira task list & final analysis document.
+
+### PHASE 1 — Requirements Analysis & System Design
+
+***1.1 Requirements Collection (AAS-95, AAS-93)***
+
+**Documented:**
+-Functional requirements
+-Non-functional requirements
+-Actors & roles
+-System boundaries
+-Initial constraints,
+
+**1.2 Actor & Use Case Identification (AAS-99)**
+
+**Actors:**
+-Student
+-Instructor
+-Admin
+-Face Recognition Module (future integration)
+
+### USE CASE DIAGRAM(AAS-107)
+
+![image](https://github.com/user-attachments/assets/d2fee37c-6dcb-4bae-933b-efa55eb02aa9)
+
+
+
+### PHASE 2 — Database Design (AAS-100, AAS-106, AAS-111, AAS-110, AAS-112)
+
+### 2.1 ER DIAGRAM(AAS-106)**
+
+**Tables include:**
+-students
+-instructors
+-departments
+-courses
+-student_course (many-to-many)
+-attendance
+
+![image](https://github.com/user-attachments/assets/20d9a595-b5c9-4507-b054-a7d966728a6e)
+
+### SEQUENCE DIAGRAM (AAS-108)
+
+Sequence diagrams were created for the following use cases:
+
+->Add Student
+->Face Enrollment
+->Take Attendance (Camera)
+->View Attendance
+->Generate Reports
+
+![image](https://github.com/user-attachments/assets/b4d05884-4aba-4e36-8e2c-2d1125e391b1)
+
+
+**2.2 Database Implementation**
+
+✔ PostgreSQL schema created
+✔ Sample data inserted
+✔ Relationships tested
+✔ Node.js DB connection established
+
+### PHASE 3 — UI/UX Design (AAS-114, AAS-115, AAS-116, AAS-118)
+
+**3.1 Wireframe Design (Canva)**
+
+**Designed screens:**
+-Login
+-Dashboard
+-Students Page
+-Instructors Page
+-Courses
+-Attendance
+-Reports
+-Settings
+
+### UI Design Placeholder
+
+1. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/eb1420d2-a29c-4f0c-9268-6b778d11e907" />
+
+2. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/f857d158-f01f-4626-8af2-1397ccd63865" />
+
+3. <img width="525" height="295" alt="image" src="https://github.com/user-attachments/assets/fbaafd40-8d68-4ec4-ad70-b696cedcf3d1" />
+
+4.<img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/12cc2772-aae5-4ac4-bc2b-9d84b5185008" />
+
+5. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/d33c1ddf-b9d5-4c07-b725-98ff5a0e531b" />
+
+6. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/aa7857f5-79ce-4cb2-9a51-2fddbd2d660e" />
+
+7. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/2442286d-88e3-4842-ad10-5847514a6ebf" />
+
+8. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/0e8a186f-41a2-495b-9d45-6a4b84e6a2df" />
+
+9. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/6d1b581c-eebc-47a2-a2f5-24c75474528f" />
+
+10. <img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/55cd31ef-50a2-4c23-9e7c-89f86c656744" />
+
+11.<img width="524" height="295" alt="image" src="https://github.com/user-attachments/assets/128b55e7-8de8-4e7a-811b-6fdf08d16c09" />
+
+### 3.2 High-Fidelity UI (Cursor AI + React)
+
+**Developed reusable components:**
+
+-Sidebar navigation
+-Search bars
+-Filter dropdowns
+-Cards & tables
+-Forms
+-Charts
+
+### UI Screens Placeholder
+
+1. <img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/73708a5b-843f-4d72-ae3d-203df2ea075d" />
+
+2. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/76dc371a-bb17-4668-a020-37adde7e0788" />
+
+3. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/4ee4fa2b-1948-4284-9a16-afb1069f7666" />
+
+4. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/a419f371-f052-4383-bbdc-e487b79397bd" />
+
+5. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/08509ecd-ceef-4f8d-9949-7a20b766ff2f" />
+
+6. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/b9de43e1-c9a2-4782-857b-87e101a29e05" />
+
+7.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/b05e392c-e85c-4856-af74-da7f50a9e933" />
+
+8.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/8182e578-cf1f-44a0-a16e-1911dfdfbe92" />
+
+9.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/5c179ecc-615d-4287-bb88-05c06a423bf3" />
+
+10.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/92e98ac7-6421-430f-be54-4fc491b4bb82" />
+
+11.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/9c1138f5-14f8-408f-8637-d0b087f5e671" />
+
+12.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/56bb9914-cdac-4167-b4bc-9eb2e75637e6" />
+
+13.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/081e6c84-95cd-49da-b538-629086a6374e" />
+
+14.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/24406603-7542-453d-966f-562ec1ada862" />
+
+15.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/7bc3f68f-2e07-43a3-9c71-d083e0d096c1" />
+
+16.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/fe04446d-be14-4783-a342-cfce7da3e92b" />
+
+17. <img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/9b1040a7-b096-4ee8-8aed-d007d917f217" />
+
+18.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/05c1a6bb-f94e-4449-9ae6-1538d9898037" />
+
+
+### PHASE 4 — Frontend Development (React + Vite)
+
+**4.1 Routing System**
+
+Implemented using **React Router DOM:**
+
+/ → Dashboard  
+/students  
+/instructors  
+/courses  
+/attendance  
+/reports  
+/settings  
+
+**4.2 State & API Integration**
+
+Using api.js, all backend requests were centralized:
+
+export const API_URL = "/api";   // relative path for unified server
+
+export async function getStudents() {
+  return fetch(`${API_URL}/students`).then(res => res.json());
+}
+
+
+### 4.3 Components Developed
+
+  **Component**	                           **Purpose**
+  Dashboard.jsx	                    System summary & quick actions
+  Students.jsx	                    Add/edit/delete/search students
+  Attendance.jsx	                  Attendance table & filtering
+  Reports.jsx	                      Future reporting features
+  Courses.jsx	                      Course list & instructor mapping
+  Instructors.jsx	                  Instructor management
+  Settings.jsx                      Profile & system config
+
+
+### PHASE 5 — Backend Development (Node.js + Express)
+
+***5.1 Backend Setup (AAS-123)***
+
+npm init  
+npm install express pg cors dotenv
+
+
+**5.2 Database Connection Layer (AAS-119)**
+
+db.js contains PostgreSQL pool:
+
+const pool = new Pool({
+  host: process.env.DB_HOST || "localhost",
+  port: process.env.DB_PORT || 5433,
+  user: process.env.DB_USER || "postgres",
+  password: process.env.DB_PASSWORD || "postgres",
+  database: process.env.DB_NAME || "aas_database",
 });
-```
-
-#### 6.3. Tek Port Üzerinden Çalışma
-- Backend sunucusu hem API endpoint'lerini hem de frontend'i aynı porttan (5001) servis eder
-- API istekleri `/api/*` path'i ile backend'e yönlendirilir
-- Diğer tüm istekler React uygulamasına yönlendirilir
-- Bu sayede CORS sorunları ortadan kalkar ve deployment kolaylaşır
 
----
 
-### **AŞAMA 7: Git Repository Yönetimi**
+**5.3 REST API Endpoints**
 
-#### 7.1. Git Repository Başlatma
-```bash
-git init
-git remote add origin https://github.com/Beg-m/AAS-Website.git
-```
+**Students API (AAS-127)**
 
-#### 7.2. Dosya Yapısı Commit Edildi
-- Tüm proje dosyaları commit edildi
-- `.gitignore` dosyası ile gereksiz dosyalar hariç tutuldu
+GET /api/students
+POST /api/students
+PUT /api/students/:id
+DELETE /api/students/:id
 
-#### 7.3. Remote Repository ile Senkronizasyon
-```bash
-git pull origin main --allow-unrelated-histories
-```
-- GitHub repository'den mevcut değişiklikler çekildi
-- Local ve remote değişiklikler merge edildi
+**Attendance API (AAS-140)**
 
----
+GET /api/attendance
+POST /api/attendance
 
-## 📦 Kurulum ve Çalıştırma
+**Reports API (AAS-144)**
 
-### Gereksinimler
-- **Node.js** (v18 veya üzeri)
-- **npm** (Node.js ile birlikte gelir)
-- **PostgreSQL** (v12 veya üzeri)
-- **Git** (opsiyonel, repository'yi klonlamak için)
+GET /api/reports/attendance-summary
+GET /api/reports/attendance-rate
 
-### Adım 1: Projeyi İndirin
 
-```bash
-# GitHub'dan klonlayın
-git clone https://github.com/Beg-m/AAS-Website.git
-cd AAS-Website-main
-```
+**Face Enrollment & Processing (AAS-131)**
 
-### Adım 2: Frontend Bağımlılıklarını Yükleyin
+☑ API prepared
+☑ Ready for integration with AI face-recognition module
 
-```bash
-# Proje kök dizininde
-npm install
-```
+### PHASE 6 — Unified Production Server (AAS-152)
 
-Bu komut şunları yükler:
-- React ve React DOM
-- React Router DOM
-- React Icons
-- Vite ve development dependencies
-- ESLint ve diğer linting araçları
+**The backend serves both:**
 
-### Adım 3: Backend Bağımlılıklarını Yükleyin
+- **/api/** → Express REST API
+- **React production build** → /dist
+  
+**Static File Hosting**
 
-```bash
-cd backend-node
-npm install
-```
+app.use(express.static(path.join(__dirname, "..", "dist")));
 
-Bu komut şunları yükler:
-- Express.js
-- PostgreSQL client (pg)
-- CORS
-- dotenv
+**SPA Routing Support**
 
-### Adım 4: Veritabanı Kurulumu
+app.get("*", (req, res) => {
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ error: "Route not found" });
+  }
+  res.sendFile(path.join(buildPath, "index.html"));
+});
 
-PostgreSQL veritabanınızın çalıştığından emin olun. Ardından veritabanını oluşturun:
+**RESULT**
+✔ No CORS issues
+✔ Both frontend + backend run on same port
+✔ Simple deployment (Docker or plain Node)
 
-```bash
-# PostgreSQL'e bağlanın ve veritabanı oluşturun
-createdb aas_database
 
-# Veya psql ile
-psql -U postgres
-CREATE DATABASE aas_database;
-```
+### 7. API DOCUMENTATION
 
-**Not:** Veritabanı şeması (tablolar) Python backend veya migration script'leri ile oluşturulmalıdır. Şu anda Node.js backend sadece mevcut tablolara erişim sağlar.
+**Students**
 
-### Adım 5: Environment Variables (Opsiyonel)
+GET /api/students
+POST /api/students
+GET /api/students/:id
+PUT /api/students/:id
+DELETE /api/students/:id
 
-Eğer varsayılan veritabanı ayarlarından farklı kullanmak istiyorsanız, `backend-node` klasöründe `.env` dosyası oluşturun:
+**Instructors**
 
-```env
-PORT=5001
-DB_HOST=localhost
-DB_PORT=5433
-DB_NAME=aas_database
-DB_USER=postgres
-DB_PASSWORD=postgres
-```
-
-### Adım 6: Frontend'i Build Edin
+GET /api/instructors
+Courses
+GET /api/courses
 
-```bash
-# Proje kök dizininde
-npm run build
-```
+**Attendance**
 
-Bu komut `dist/` klasöründe production-ready dosyalar oluşturur.
-
-### Adım 7: Sunucuyu Başlatın
-
-```bash
-cd backend-node
-npm start
-```
-
-Sunucu `http://localhost:5001` adresinde başlatılacaktır.
-
-### Adım 8: Uygulamaya Erişin
-
-Tarayıcınızda şu adresi açın:
-```
-http://localhost:5001
-```
+GET /api/attendance
+POST /api/attendance
 
----
+**Reports**
 
-## 🔌 API Endpoint'leri
-
-Tüm API endpoint'leri `/api` prefix'i ile başlar ve JSON formatında yanıt döner.
+GET /api/reports/attendance-summary
+Departments
+GET /api/departments
 
-### Authentication
-- `POST /api/login` - Kullanıcı girişi
-  - Body: `{ username, password }`
-  - Response: `{ token, user }`
-
-### Students (Öğrenciler)
-- `GET /api/students` - Tüm öğrencileri listele
-  - Query params: `search`, `department`
-- `GET /api/students/:id` - ID'ye göre öğrenci getir
-- `POST /api/students` - Yeni öğrenci ekle
-  - Body: `{ name, surname, email, department_id, ... }`
-- `PUT /api/students/:id` - Öğrenci bilgilerini güncelle
-- `DELETE /api/students/:id` - Öğrenci sil
-- `GET /api/students/courses` - Öğrenci-ders ilişkileri
-  - Query params: `search`, `course`
+**Health Check**
 
-### Instructors (Öğretmenler)
-- `GET /api/instructors` - Tüm öğretmenleri listele
-  - Query params: `search`, `department`
+GET /api/health
 
-### Courses (Dersler)
-- `GET /api/courses` - Tüm dersleri listele
-  - Query params: `search`, `instructor_id`
 
-### Attendance (Yoklama)
-- `GET /api/attendance` - Yoklama kayıtlarını getir
-  - Query params: `name_surname`, `course`, `date`, `search`
-- `POST /api/attendance` - Yeni yoklama kaydı oluştur
-  - Body: `{ student_id, course_id, date, status }`
 
-### Reports (Raporlar)
-- `GET /api/reports/attendance-summary` - Yoklama özet raporu
-  - Query params: `course`, `department`, `start_date`, `end_date`
-- `GET /api/reports/attendance-rate` - Yoklama oranları
-  - Query params: `course`, `department`
+This project is part of the **SE 342 Software Validation and Testing course** project at Maltepe University.
 
-### Departments (Bölümler)
-- `GET /api/departments` - Tüm bölümleri listele
+**Team Members**
 
-### Health Check
-- `GET /api/health` - Sunucu durumu
-  - Response: `{ status: "ok", message: "AAS API is running" }`
+Begüm KARADAYI - Student ID: 220706023
+Melisa ÇELİK - Student ID: 220706025
+Melisa YÖNDER - Student ID: 220706029
 
----
 
-## 🗄️ Veritabanı Yapısı
 
-### Tablolar
 
-**students**
-- `student_id` (PRIMARY KEY)
-- `name`
-- `surname`
-- `email`
-- `photo_path`
-- `face_data`
-- `department_id` (FOREIGN KEY -> departments)
 
-**instructors**
-- `instructor_id` (PRIMARY KEY)
-- `name`
-- `email`
-- `department_id` (FOREIGN KEY -> departments)
 
-**courses**
-- `course_id` (PRIMARY KEY)
-- `course_name`
-- `instructor_id` (FOREIGN KEY -> instructors)
 
-**departments**
-- `department_id` (PRIMARY KEY)
-- `department_name`
 
-**attendance**
-- `attendance_id` (PRIMARY KEY)
-- `student_id` (FOREIGN KEY -> students)
-- `course_id` (FOREIGN KEY -> courses)
-- `date`
-- `status`
 
-**student_course**
-- `student_id` (FOREIGN KEY -> students)
-- `course_id` (FOREIGN KEY -> courses)
-- PRIMARY KEY (student_id, course_id)
 
----
 
-## 🚀 Development Mode
 
-Geliştirme sırasında frontend ve backend'i ayrı ayrı çalıştırabilirsiniz:
 
-### Frontend Development Server
-```bash
-# Proje kök dizininde
-npm run dev
-```
-Frontend `http://localhost:5173` adresinde çalışacaktır (Vite default portu).
 
-### Backend Development Server
-```bash
-cd backend-node
-npm run dev
-```
-Backend `http://localhost:5001` adresinde çalışacaktır.
 
-**Not:** Development modunda, frontend'in API çağrıları için `src/utils/api.js` dosyasında base URL'in doğru yapılandırıldığından emin olun.
 
----
 
-## 🐳 Docker Kullanımı (Opsiyonel)
 
-Proje `docker-compose.yml` dosyası ile Docker container'ları olarak çalıştırılabilir. Detaylar için `DOCKER_SETUP.md` dosyasına bakın.
 
-```bash
-docker-compose up -d
-```
 
----
 
-## 📝 Önemli Notlar
 
-1. **Single Port Architecture:** Production modunda, hem frontend hem backend tek bir porttan (5001) servis edilir. Bu sayede CORS sorunları ortadan kalkar ve deployment kolaylaşır.
 
-2. **API Base URL:** Frontend'de API çağrıları relative path (`/api`) kullanır. Bu sayede aynı origin'den geldiği için CORS gerektirmez.
 
-3. **Build Process:** Her değişiklikten sonra production'a deploy etmek için frontend'i tekrar build etmeniz gerekir:
-   ```bash
-   npm run build
-   ```
 
-4. **Veritabanı Şeması:** Node.js backend, mevcut veritabanı tablolarına erişim sağlar. Tabloların Python backend veya SQL script'leri ile önceden oluşturulması gerekir.
 
-5. **Environment Variables:** Veritabanı bağlantı bilgileri için `backend-node/.env` dosyası oluşturulabilir. Varsayılan değerler `config/db.js` dosyasında tanımlıdır.
 
----
 
-## 🤝 Geliştiriciler
 
-- **Begüm Karadayı**
-- **Melisa Yönder**
-- **Melisa Çelik**
 
----
 
-## 📄 Lisans
 
-Bu proje eğitim amaçlı geliştirilmiştir.
 
----
 
-## 🔗 İlgili Dokümantasyon
 
-- [Backend Node.js README](backend-node/README.md)
-- [Docker Setup Guide](DOCKER_SETUP.md)
 
----
 
-## 🎯 Gelecek Geliştirmeler
 
-- [ ] Yüz tanıma modülü entegrasyonu
-- [ ] PDF/Excel export özelliği
-- [ ] Real-time yoklama takibi
-- [ ] Mobil uygulama geliştirme
-- [ ] Authentication token yönetimi iyileştirmesi
-- [ ] Unit ve integration testleri
-- [ ] CI/CD pipeline kurulumu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
