@@ -243,27 +243,43 @@ Sequence diagrams were created for the following use cases:
 
 4. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/a419f371-f052-4383-bbdc-e487b79397bd" />
 
-5. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/08509ecd-ceef-4f8d-9949-7a20b766ff2f" />
 
-6. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/b9de43e1-c9a2-4782-857b-87e101a29e05" />
 
-7.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/b05e392c-e85c-4856-af74-da7f50a9e933" />
+5. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/06eb3ae2-3ab2-4dcb-aac9-8014f000dc40" />
 
-8.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/8182e578-cf1f-44a0-a16e-1911dfdfbe92" />
 
-9.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/5c179ecc-615d-4287-bb88-05c06a423bf3" />
+6. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/4efe72f0-20b0-48ec-ab4c-ccf099b56c60" />
 
-10.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/92e98ac7-6421-430f-be54-4fc491b4bb82" />
 
-11.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/9c1138f5-14f8-408f-8637-d0b087f5e671" />
+7.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/3de1895a-1e04-409b-9e25-58da42b14d73" />
 
-12.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/56bb9914-cdac-4167-b4bc-9eb2e75637e6" />
 
-13.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/081e6c84-95cd-49da-b538-629086a6374e" />
+8.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/5b7bfb04-7e49-45b5-9a2f-b12a2e5a716e" />
 
-14.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/24406603-7542-453d-966f-562ec1ada862" />
 
-15.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/7bc3f68f-2e07-43a3-9c71-d083e0d096c1" />
+9.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/f4a26680-d880-4eb3-8939-e0f14a6f14dc" />
+
+
+10.<img width="433" height="282" alt="image" src="https://github.com/user-attachments/assets/1e2c05e6-bf3e-415f-a4d5-fef243270c60" />
+
+
+11.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/67777c96-d27e-47b7-b850-4fbabdb43e1c" />
+
+
+12.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/a7d18d76-f46d-4029-8378-b3b118be5920" />
+
+
+13.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/fbb60be5-be03-4b14-b2b1-ed835d494c37" />
+
+
+14.<img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/970cd045-995c-429d-a5f7-0b090038817e" />
+
+
+
+15.
+
+
+
 
 16.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/fe04446d-be14-4783-a342-cfce7da3e92b" />
 
