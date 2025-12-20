@@ -32,20 +32,35 @@ function Register() {
     e.preventDefault();
     setError('');
     setSuccess('');
-    setLoading(true);
+    
+    // Basic client-side validation
+    if (!formData.username.trim()) {
+      setError('Please enter your username');
+      return;
+    }
+    
+    if (!formData.email.trim()) {
+      setError('Please enter your email');
+      return;
+    }
+    
+    if (!formData.password.trim()) {
+      setError('Please enter your password');
+      return;
+    }
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
-      setLoading(false);
       return;
     }
 
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters long');
-      setLoading(false);
       return;
     }
+    
+    setLoading(true);
 
     try {
       const response = await authAPI.register(
@@ -106,7 +121,7 @@ function Register() {
 
         {/* Right Section - Register Form */}
         <div className="form-section">
-          <form className="login-form" onSubmit={handleSubmit}>
+          <form className="login-form" onSubmit={handleSubmit} noValidate>
             <h2 style={{ color: 'white', marginBottom: '20px', textAlign: 'center' }}>Create Account</h2>
             
             <div className="form-group">
@@ -119,6 +134,10 @@ function Register() {
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
+                  onInvalid={(e) => {
+                    e.preventDefault();
+                    setError('Please enter a valid username');
+                  }}
                   placeholder="Enter your username"
                   required
                 />
@@ -135,6 +154,10 @@ function Register() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  onInvalid={(e) => {
+                    e.preventDefault();
+                    setError('Please enter a valid email address');
+                  }}
                   placeholder="Enter your email"
                   required
                 />
@@ -181,6 +204,10 @@ function Register() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  onInvalid={(e) => {
+                    e.preventDefault();
+                    setError('Password must be at least 6 characters long');
+                  }}
                   placeholder="Enter your password (min 6 characters)"
                   required
                   minLength={6}
@@ -198,6 +225,10 @@ function Register() {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  onInvalid={(e) => {
+                    e.preventDefault();
+                    setError('Please confirm your password');
+                  }}
                   placeholder="Confirm your password"
                   required
                 />

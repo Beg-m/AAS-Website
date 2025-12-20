@@ -225,26 +225,44 @@
   position: relative;
   display: flex;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .input-icon {
-  position: absolute;
-  left: 1rem;
   color: #8a2be2;
-  font-size: 1.2rem;
-  z-index: 1;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
 }
 
 .input-wrapper input {
-  width: 100%;
-  padding: 1rem 1rem 1rem 3.5rem;
+  flex: 1;
+  padding: 1rem 1.5rem;
   border: none;
   border-radius: 50px;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff !important;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-wrapper input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.input-wrapper input:-webkit-autofill,
+.input-wrapper input:-webkit-autofill:hover,
+.input-wrapper input:-webkit-autofill:focus,
+.input-wrapper input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.15) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .input-wrapper input::placeholder {

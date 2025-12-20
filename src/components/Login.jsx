@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaLock, FaLinkedin, FaFacebook, FaYoutube, FaInstagram } from 'react-icons/fa';
 import { authAPI } from '../utils/api';
@@ -10,20 +10,84 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const formRef = useRef(null);
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  // Disable browser validation on mount - AGGRESSIVE approach
+  useEffect(() => {
+    const disableValidation = () => {
+      if (formRef.current) {
+        formRef.current.setAttribute('novalidate', '');
+        formRef.current.noValidate = true;
+        // Prevent validation on form
+        formRef.current.addEventListener('invalid', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }, true);
+      }
+      if (usernameRef.current) {
+        usernameRef.current.setAttribute('formnovalidate', '');
+        usernameRef.current.removeAttribute('pattern');
+        usernameRef.current.removeAttribute('required');
+        usernameRef.current.removeAttribute('minLength');
+        usernameRef.current.removeAttribute('maxLength');
+        // Prevent validation on input
+        usernameRef.current.addEventListener('invalid', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }, true);
+      }
+      if (passwordRef.current) {
+        passwordRef.current.setAttribute('formnovalidate', '');
+        passwordRef.current.removeAttribute('pattern');
+        passwordRef.current.removeAttribute('required');
+        passwordRef.current.removeAttribute('minLength');
+        passwordRef.current.removeAttribute('maxLength');
+        // Prevent validation on input
+        passwordRef.current.addEventListener('invalid', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }, true);
+      }
+    };
+    
+    // Run immediately and after a short delay to catch any late initialization
+    disableValidation();
+    setTimeout(disableValidation, 100);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    
+    // Basic client-side validation (JavaScript only)
+    if (!username.trim()) {
+      setError('Please enter your username');
+      return;
+    }
+    
+    if (!password.trim()) {
+      setError('Please enter your password');
+      return;
+    }
+    
     setLoading(true);
     
     try {
-      const response = await authAPI.login(username, password);
+      const response = await authAPI.login(username.trim(), password);
       if (response.success) {
         // Store user info in localStorage
         localStorage.setItem('user', JSON.stringify(response.user));
         navigate('/dashboard');
+      } else {
+        setError('Invalid username or password');
       }
     } catch (err) {
+      console.error('Login error:', err);
       setError(err.message || 'Invalid username or password');
     } finally {
       setLoading(false);
@@ -67,18 +131,22 @@ function Login() {
 
         {/* Right Section - Login Form */}
         <div className="form-section">
-          <form className="login-form" onSubmit={handleSubmit}>
+          <form ref={formRef} className="login-form" onSubmit={handleSubmit} noValidate>
             <div className="form-group">
               <label htmlFor="username">User Name:</label>
               <div className="input-wrapper">
                 <FaUser className="input-icon" />
                 <input
+                  ref={usernameRef}
                   type="text"
                   id="username"
+                  name="username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    setError(''); // Clear error when user types
+                  }}
                   placeholder="Enter your username"
-                  required
                 />
               </div>
             </div>
@@ -88,12 +156,16 @@ function Login() {
               <div className="input-wrapper">
                 <FaLock className="input-icon" />
                 <input
+                  ref={passwordRef}
                   type="password"
                   id="password"
+                  name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError(''); // Clear error when user types
+                  }}
                   placeholder="Enter your password"
-                  required
                 />
               </div>
             </div>
