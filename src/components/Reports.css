@@ -1,0 +1,312 @@
+/* Reports Page Styles */
+.content-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.reports-header {
+  margin-bottom: 2rem;
+}
+
+.reports-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Filter Section */
+.filter-section {
+  margin-bottom: 2rem;
+}
+
+.filter-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.select-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 150px;
+}
+
+.filter-select {
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #333;
+  background-color: #ffffff;
+  cursor: pointer;
+  appearance: none;
+  width: 100%;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+.filter-button {
+  padding: 0.75rem 2rem;
+  background-color: #1976d2;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-button:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+}
+
+.filter-button:active {
+  transform: translateY(0);
+}
+
+/* Reports Grid */
+.reports-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Report Card */
+.report-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Report Table */
+.table-container {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.report-table thead {
+  background-color: #f5f5f5;
+}
+
+.report-table th {
+  padding: 0.875rem 0.75rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.report-table td {
+  padding: 0.875rem 0.75rem;
+  font-size: 0.85rem;
+  color: #666;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.report-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.report-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.report-table tbody tr:nth-child(even):hover {
+  background-color: #f5f5f5;
+}
+
+.report-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Attendance Rate List */
+.attendance-rate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rate-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.rate-item:hover {
+  background-color: #f0f0f0;
+}
+
+.rate-course {
+  flex: 1;
+}
+
+.rate-percentage {
+  font-weight: 600;
+  color: #1976d2;
+  font-size: 1rem;
+}
+
+/* Export Card */
+.export-card {
+  margin-top: 2rem;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.export-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pdf-button {
+  background-color: #1976d2;
+  color: #ffffff;
+  border-color: #1976d2;
+}
+
+.pdf-button:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+}
+
+.excel-button {
+  background-color: #ffffff;
+  color: #333;
+  border-color: #e0e0e0;
+}
+
+.excel-button:hover {
+  background-color: #f9f9f9;
+  border-color: #4caf50;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+}
+
+.export-icon {
+  font-size: 1.2rem;
+}
+
+.pdf-button .export-icon {
+  color: #f44336;
+}
+
+.excel-button .export-icon {
+  color: #4caf50;
+}
+
+/* AI AAS Logo */
+.ai-aas-logo {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+
+.ai-aas-button {
+  background-color: #1976d2;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+}
+
+.ai-aas-button:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+}
+
+.ai-aas-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .reports-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .select-wrapper {
+    width: 100%;
+  }
+
+  .filter-button {
+    width: 100%;
+  }
+
+  .export-buttons {
+    flex-direction: column;
+  }
+
+  .export-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
