@@ -243,49 +243,35 @@ Sequence diagrams were created for the following use cases:
 
 4. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/a419f371-f052-4383-bbdc-e487b79397bd" />
 
-
-
 5. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/06eb3ae2-3ab2-4dcb-aac9-8014f000dc40" />
-
 
 6. <img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/4efe72f0-20b0-48ec-ab4c-ccf099b56c60" />
 
-
 7.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/3de1895a-1e04-409b-9e25-58da42b14d73" />
-
 
 8.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/5b7bfb04-7e49-45b5-9a2f-b12a2e5a716e" />
 
-
 9.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/f4a26680-d880-4eb3-8939-e0f14a6f14dc" />
-
 
 10.<img width="433" height="282" alt="image" src="https://github.com/user-attachments/assets/1e2c05e6-bf3e-415f-a4d5-fef243270c60" />
 
-
 11.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/67777c96-d27e-47b7-b850-4fbabdb43e1c" />
-
 
 12.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/a7d18d76-f46d-4029-8378-b3b118be5920" />
 
-
 13.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/fbb60be5-be03-4b14-b2b1-ed835d494c37" />
 
+14.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/4d086a60-0bbd-4dfa-8640-8e0d1668fbbc" />
 
-14.<img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/970cd045-995c-429d-a5f7-0b090038817e" />
+15.<img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/84876a14-f816-4e18-8bca-8f209616aaba" />
 
+16.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/aee51b1e-43be-4ef3-92e6-25ae6247785c" />
 
+17.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/fe04446d-be14-4783-a342-cfce7da3e92b" />
 
-15.
+18. <img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/9b1040a7-b096-4ee8-8aed-d007d917f217" />
 
-
-
-
-16.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/fe04446d-be14-4783-a342-cfce7da3e92b" />
-
-17. <img width="433" height="281" alt="image" src="https://github.com/user-attachments/assets/9b1040a7-b096-4ee8-8aed-d007d917f217" />
-
-18.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/05c1a6bb-f94e-4449-9ae6-1538d9898037" />
+19.<img width="432" height="281" alt="image" src="https://github.com/user-attachments/assets/05c1a6bb-f94e-4449-9ae6-1538d9898037" />
 
 
 ### PHASE 4 — Frontend Development (React + Vite)
